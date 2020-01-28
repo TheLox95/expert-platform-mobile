@@ -20,13 +20,6 @@ const Skeleton: React.FunctionComponent = ({ children }) => {
         <Content>
             {children}
         </Content>
-        <Footer>
-          <FooterTab>
-            <Button full>
-              <Text>Footer</Text>
-            </Button>
-          </FooterTab>
-        </Footer>
       </Container>
     );
 }

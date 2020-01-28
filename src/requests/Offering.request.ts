@@ -9,13 +9,22 @@ const OfferingRequest: (http: HttpInstance) => OfferingRequestInterface = (http)
         })
     }
 
+    const getOffering = (id: number) => {
+        return http<Offering>({
+            url: `http://localhost:1337/offerings/${id}`,
+            method: 'GET'
+        })
+    }
+
     return {
-        getOfferings
+        getOfferings,
+        getOffering
     }
 }
 
 export interface OfferingRequestInterface {
     getOfferings: () => Promise<Offering[]>
+    getOffering: (id: number) => Promise<Offering>
 }
 
 export default OfferingRequest;

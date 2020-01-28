@@ -1,21 +1,63 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
-import { List, ListItem, Text, Container } from "native-base";
-import { useNavigationParam  } from 'react-navigation-hooks'
+import { H2 } from "native-base";
+import { Image, TouchableOpacity } from "react-native"
+import { useNavigationParam, useNavigation  } from 'react-navigation-hooks'
 import Wrapper from "../state/Wrapper";
 import { WrappedComponent } from "../state/WrappedComponent";
-import { useEffect } from 'react';
-import { useState } from 'react';
+// @ts-ignore
+import VideoThumbnail from 'react-native-video-thumbnail';
 import { Offering } from '../models';
-import Skeleton from '../tools/skeleton';
+import Markdown from 'react-native-markdown-renderer';
 
 const OfferingPage: WrappedComponent = ({ requests }) => {
-    const [ offerings, updateOfferings ] = useState<Offering[]>([]);
-    const [ selectedId, updateSelectedId ] = useState(-1);
+    const [ offeringToShow, updateOfferingToShow ] = useState<Offering | null>(null);
     const offering = useNavigationParam('offering');
+    const { navigate } = useNavigation();
+    const { offering: offeringRequests } = requests;
 
+    useEffect(() => {
+      offeringRequests.getOffering(offering.id)
+      .then(o => updateOfferingToShow(o));
+    }, []);
+    
     return (
-      <Text>{offering.name}</Text>
+      <>
+        <H2>{offeringToShow?.name}</H2>
+        {offeringToShow ? (
+          <Markdown>
+            {offeringToShow.description}
+          </Markdown>        
+        ): null}
+
+        {offeringToShow ? offeringToShow.videos.map(v => {
+          return (
+            <TouchableOpacity
+              key={offeringToShow.id}
+              onPress={() => navigate('VideoPlayer', { video: v })}
+            >
+              <Image
+                style={{width: 50, height: 50}}
+                source={{ uri: `http://localhost:1337${v.thumbnail}` }}
+              />
+            </TouchableOpacity>
+          );
+        }): null}
+
+        {offeringToShow ? offeringToShow.photos.map(p => {
+          return (
+            <TouchableOpacity
+              key={offeringToShow.id}
+              onPress={() => navigate('ImageGallery', { photos: offeringToShow.photos })}
+            >
+              <Image
+                style={{width: 50, height: 50}}
+                source={{ uri: `http://localhost:1337/${p.url}` }}
+              />
+            </TouchableOpacity>
+          );
+        }): null}
+      </>
     );
 }
 
