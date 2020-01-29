@@ -4,7 +4,7 @@ import { OfferingRequestInterface } from '../requests/Offering.request';
 import { CSSProperties } from 'react';
 
 export interface GlobalProps { 
-    style: CSSProperties
+    style?: CSSProperties
     useGlobalState: UseGlobalState
     dispatch: (action: DispatchAction) => DispatchAction
     requests: {

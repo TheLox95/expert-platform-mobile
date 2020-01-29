@@ -4,6 +4,7 @@ import OfferingListPage from '../pages/OfferingList.screen';
 import OfferingPage from '../pages/Offering.screen';
 import ImageGallery from '../tools/ImageGallery';
 import VideoPlayer from '../tools/VideoPlayer';
+import SearchScreen from '../pages/Search.screen';
 
 const AppNavigator = createStackNavigator(
 {
@@ -11,6 +12,7 @@ const AppNavigator = createStackNavigator(
     Offering: { screen: OfferingPage },
     ImageGallery: { screen: ImageGallery },
     VideoPlayer: { screen: VideoPlayer },
+    Search: { screen: SearchScreen },
   },
   {
     headerMode: 'none',

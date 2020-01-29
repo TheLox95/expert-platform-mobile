@@ -1,5 +1,5 @@
 import { GlobalProps } from "./GlobalProps";
 
-export interface WrappedComponent<T = {} & GlobalProps> extends React.FunctionComponent<T> {
+export interface WrappedComponent<T = {}> extends React.FunctionComponent<T & GlobalProps> {
     
 }

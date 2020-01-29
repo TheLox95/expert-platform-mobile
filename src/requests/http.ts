@@ -13,6 +13,7 @@ const HttpConstructor = (dispatch: (action: DispatchAction ) => void): HttpInsta
             return r.data as T;
         })
         .catch((err) => {
+            dispatch({ type: 'loaded' })
             console.log(err)
             throw err
         }) 
