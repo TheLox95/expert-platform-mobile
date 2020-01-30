@@ -6,6 +6,7 @@ import { HttpConstructor } from '../requests/http';
 import Skeleton from '../tools/skeleton';
 import { Spinner, Content, Toast } from 'native-base';
 import UserRequest from '../requests/User.request';
+import FileRequest from '../requests/File.request';
 
 type WrapperOptions = { skeleton: boolean }
 
@@ -18,10 +19,12 @@ export default function Wrapper<P extends {}>(Component: WrappedComponent<P>, op
 
         const OfferingsRequest = OfferingRequest(http);
         const UsersRequest = UserRequest(http);
+        const FilesRequest = FileRequest(http);
 
         const requests = {
             offering: OfferingsRequest,
-            user: UsersRequest
+            user: UsersRequest,
+            file: FilesRequest,
         }
 
         if (error) {

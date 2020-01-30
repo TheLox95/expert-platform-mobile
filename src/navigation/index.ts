@@ -7,6 +7,7 @@ import VideoPlayer from '../tools/VideoPlayer';
 import SearchScreen from '../pages/Search.screen';
 import ExpertScreen from '../pages/Expert.screen';
 import LoginScreen from '../pages/Login.screen';
+import CreateOfferingScreen from '../pages/CreateOffering.screen';
 
 export default (token: string | null ) => {
 
@@ -19,10 +20,11 @@ export default (token: string | null ) => {
         Search: { screen: SearchScreen },
         Expert: { screen: ExpertScreen },
         Login: { screen: LoginScreen },
+        CreateOffering: { screen: CreateOfferingScreen },
       },
       {
         headerMode: 'none',
-        initialRouteName: token ? 'Home': 'Login',
+        initialRouteName: 'CreateOffering',
         
       });
 
