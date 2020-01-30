@@ -1,5 +1,4 @@
-import { UseGlobalState } from './GlobalState'
-import { DispatchAction } from './DispatchAction';
+import { UseGlobalState, DispatchFunction } from './GlobalState'
 import { OfferingRequestInterface } from '../requests/Offering.request';
 import { CSSProperties } from 'react';
 import { UserRequestInterface } from 'src/requests/User.request';
@@ -7,7 +6,7 @@ import { UserRequestInterface } from 'src/requests/User.request';
 export interface GlobalProps { 
     style?: CSSProperties
     useGlobalState: UseGlobalState
-    dispatch: (action: DispatchAction) => DispatchAction
+    dispatch: DispatchFunction
     requests: {
         offering: OfferingRequestInterface
         user: UserRequestInterface

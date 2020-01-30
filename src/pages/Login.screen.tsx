@@ -4,12 +4,12 @@ import Wrapper from '../state/Wrapper';
 import { Form, Item, Input, Button, Text } from 'native-base';
 import { useNavigation } from 'react-navigation-hooks';
 
-const LoginScreen: WrappedComponent = ({ requests: { user }}) => {
+const LoginScreen: WrappedComponent = ({ requests: { user }, useGlobalState }) => {
     const { navigate } = useNavigation()
     const [ username, updateUsername] = useState('');
     const [ password, updatePassword] = useState('');
 
-    const send = () => user.login(username, password).then(() => console.log('navigating'))
+    const send = () => user.login(username, password).then(() => navigate('Home'))
 
     return (
         <Form>

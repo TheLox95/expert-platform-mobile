@@ -10,9 +10,13 @@
 
 import React from 'react';
 import { Root } from 'native-base'
-import Navigation from './src/navigation/index';
+import Navigator from './src/navigation/index';
+import { useGlobalState } from './src/state/GlobalState';
 
 const App = () => {
+  const [token] = useGlobalState('token');
+
+  const Navigation = Navigator(token);
   return (
     <Root>
       <Navigation />

@@ -8,20 +8,23 @@ import SearchScreen from '../pages/Search.screen';
 import ExpertScreen from '../pages/Expert.screen';
 import LoginScreen from '../pages/Login.screen';
 
-const AppNavigator = createStackNavigator(
-{
-    Home: { screen: OfferingListPage },
-    Offering: { screen: OfferingPage },
-    ImageGallery: { screen: ImageGallery },
-    VideoPlayer: { screen: VideoPlayer },
-    Search: { screen: SearchScreen },
-    Expert: { screen: ExpertScreen },
-    Login: { screen: LoginScreen },
-  },
-  {
-    headerMode: 'none',
-    initialRouteName: 'Login',
-    
-  });
-  
-  export default createAppContainer(AppNavigator);
+export default (token: string | null ) => {
+
+  const AppNavigator = createStackNavigator(
+    {
+        Home: { screen: OfferingListPage },
+        Offering: { screen: OfferingPage },
+        ImageGallery: { screen: ImageGallery },
+        VideoPlayer: { screen: VideoPlayer },
+        Search: { screen: SearchScreen },
+        Expert: { screen: ExpertScreen },
+        Login: { screen: LoginScreen },
+      },
+      {
+        headerMode: 'none',
+        initialRouteName: token ? 'Home': 'Login',
+        
+      });
+
+  return createAppContainer(AppNavigator)
+};

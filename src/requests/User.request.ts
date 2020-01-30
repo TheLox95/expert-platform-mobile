@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import { HttpInstance } from "./http";
 import { Offering, User } from "../models";
+import { dispatch } from '../state/GlobalState';
 
 const UserRequest: (http: HttpInstance) => UserRequestInterface = (http) => {
     const getUser = (id: number) => {
@@ -16,7 +17,8 @@ const UserRequest: (http: HttpInstance) => UserRequestInterface = (http) => {
     }
 
     const login = (u: string, p: string) => {
-        return http<void>({
+        console.log(u, p)
+        return http<{ jwt: string }>({
             url: `http://localhost:1337/auth/local/`,
             method: 'POST',
             data: {
@@ -24,8 +26,12 @@ const UserRequest: (http: HttpInstance) => UserRequestInterface = (http) => {
                 password: p,
             }
         }).then((r) => {
-            console.log(r)
-            return AsyncStorage.setItem('token', '')
+            console.log('token recieved')
+            return AsyncStorage.setItem('token', r.jwt).then(() => r)
+        })
+        .then(r => {
+            console.log('dispatching token')
+            return dispatch({ type: 'token', payload: r.jwt })
         })
     }
 
