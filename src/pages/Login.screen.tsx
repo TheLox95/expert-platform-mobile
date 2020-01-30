@@ -1,23 +1,45 @@
 import React, { useState } from 'react';
+import { useForm, Controller, OnSubmit, EventFunction } from 'react-hook-form'
 import { WrappedComponent } from '../state/WrappedComponent';
 import Wrapper from '../state/Wrapper';
 import { Form, Item, Input, Button, Text } from 'native-base';
 import { useNavigation } from 'react-navigation-hooks';
+import { useEffect } from 'react';
 
 const LoginScreen: WrappedComponent = ({ requests: { user }, useGlobalState }) => {
     const { navigate } = useNavigation()
-    const [ username, updateUsername] = useState('');
-    const [ password, updatePassword] = useState('');
+    const { control, handleSubmit, errors } = useForm<{username: string, password: string}>();
 
-    const send = () => user.login(username, password).then(() => navigate('Home'))
+    const send  = handleSubmit((data) => {
+      user.login(data.username, data.password).then(() => navigate('Home'))
+    })
+    const onChange: EventFunction = (t) => {
+      return {
+        value: t[0].nativeEvent.text,
+      };
+    };
 
     return (
         <Form>
             <Item>
-              <Input placeholder="Username" onChangeText={(t) => updateUsername(t)}/>
+              <Controller
+                as={<Input placeholder="Username" />}
+                control={control}
+                name="username"
+                onChange={onChange}
+                rules={{ required: true }}
+              />
+              {errors.username && <Text>This is required.</Text>}
             </Item>
             <Item>
-              <Input placeholder="Password" onChangeText={(t) => updatePassword(t)}/>
+            <Controller
+                as={<Input placeholder="Password" />}
+                control={control}
+                name="password"
+                onChange={onChange}
+                rules={{ required: true }}
+              />
+              {errors.password && <Text>This is required.</Text>}
             </Item>
             <Button onPress={send}>
                 <Text>Login</Text>
