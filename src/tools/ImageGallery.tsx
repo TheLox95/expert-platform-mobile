@@ -7,6 +7,8 @@ import { useNavigationParam } from 'react-navigation-hooks';
 const ImageGallery: React.FunctionComponent = () => {
     const photos: Photo[] = useNavigationParam('photos');
 
+    console.table(photos)
+
     return (
         <GallerySwiper images={photos.map(p => ({ url: `http://localhost:1337/${p.url}`}) )} />
     );

@@ -5,22 +5,24 @@ import OfferingRequest from '../requests/Offering.request';
 import { HttpConstructor } from '../requests/http';
 import Skeleton from '../tools/skeleton';
 import { Spinner, Content } from 'native-base';
-import { useNavigationState } from 'react-navigation-hooks';
+import UserRequest from '../requests/User.request';
 
 type WrapperOptions = { skeleton: boolean }
 
 export default function Wrapper<P extends {}>(Component: WrappedComponent<P>, options?: WrapperOptions): React.FunctionComponent<P> {
 
-    const http = HttpConstructor(dispatch);
-
-    const OfferingsRequest = OfferingRequest(http);
-
-    const requests = {
-        offering: OfferingsRequest
-    }
-
+    const http = HttpConstructor(dispatch)
 
     return (props: React.PropsWithChildren<P>) => {
+
+        const OfferingsRequest = OfferingRequest(http);
+        const UsersRequest = UserRequest(http);
+
+        const requests = {
+            offering: OfferingsRequest,
+            user: UsersRequest
+        }
+
         const [ loading ] = useGlobalState('loading');
 
         if (options && options.skeleton === false) {
@@ -28,8 +30,6 @@ export default function Wrapper<P extends {}>(Component: WrappedComponent<P>, op
                 <Component {...props} useGlobalState={useGlobalState} dispatch={dispatch} requests={requests} />    
             );
         }
-
-        console.log(useNavigationState())
 
         return (
             <Skeleton>

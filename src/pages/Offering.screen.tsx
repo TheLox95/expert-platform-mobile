@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
-import { H2 } from "native-base";
-import { Image, TouchableOpacity } from "react-native"
+import { H2, Button } from "native-base";
+import { Image, TouchableOpacity, Text } from "react-native"
 import { useNavigationParam, useNavigation  } from 'react-navigation-hooks'
 import Wrapper from "../state/Wrapper";
 import { WrappedComponent } from "../state/WrappedComponent";
@@ -57,6 +57,10 @@ const OfferingPage: WrappedComponent = ({ requests }) => {
             </TouchableOpacity>
           );
         }): null}
+
+          <Button onPress={() => navigate('Expert', { id: offeringToShow?.user.id})}>
+            <Text>See Expert</Text>
+          </Button>
       </>
     );
 }
