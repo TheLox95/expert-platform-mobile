@@ -46,7 +46,7 @@ export default function Wrapper<P extends {}>(Component: WrappedComponent<P>, op
                 style: { backgroundColor: '#607d8b'},
                 textStyle: { color: '#000000'},
                 onClose: () => {dispatch({ type: 'info', payload: null })}
-              })
+            })
         }
 
         if (success) {
@@ -55,7 +55,7 @@ export default function Wrapper<P extends {}>(Component: WrappedComponent<P>, op
                 text: success,
                 type: 'success',
                 textStyle: { color: '#ffffff'},
-                onClose: () => {dispatch({ type: 'info', payload: null })}
+                onClose: () => {dispatch({ type: 'success', payload: null })}
               })
         }
 

@@ -1,0 +1,30 @@
+import { useState, useEffect } from "react"
+import { Text } from 'native-base';
+import LocalFile from "./LocalFile"
+import Manager from "./Manager"
+import { FileRequestInterface } from "../../requests/File.request"
+import { dispatch } from "../../state/GlobalState";
+
+type ReturnType = [ React.Dispatch<React.SetStateAction<LocalFile | null>>, string]
+
+export default function useFileUpload(tag: string,fileRequest: FileRequestInterface): ReturnType{
+    const [ progress, setProgress ] = useState(0)
+    const [ file, setFile ] = useState<LocalFile | null>(null)
+
+    const progressText = (progress > 0 && progress < 100) ? `${progress}%`: tag
+
+    useEffect(() => {
+        if (file) { 
+            const manager = new Manager(fileRequest)
+            manager.set(file)
+            manager.upload()
+            ?.subscribe(
+                (progress) => setProgress(progress),
+                (file) => dispatch({ type: 'error', payload: `Error uploading ${file.name}` }),
+                () => dispatch({ type: 'success', payload: `${file.name} uploaded!` }),
+            )
+        }
+    }, [file]);
+
+    return [ setFile, progressText ]
+}

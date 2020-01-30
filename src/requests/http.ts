@@ -11,8 +11,6 @@ const HttpConstructor = (dispatch: DispatchFunction, token: string | null): Http
             dispatch({ type: 'loading' })
         }
 
-        console.log(token)
-        
         const authHeader = token ? { Authorization: `Bearer ${token}`} : {}
 
         return axios({
@@ -33,6 +31,8 @@ const HttpConstructor = (dispatch: DispatchFunction, token: string | null): Http
             if (config.disableLoad === true) {
                 dispatch({ type: 'loaded' })
             }
+
+            console.log(error)
             
             if (error.response) {
                 // The request was made and the server responded with a status code
