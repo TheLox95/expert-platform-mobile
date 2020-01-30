@@ -40,6 +40,8 @@ target 'MyApp' do
 
   pod 'react-native-orientation-locker', :path => '../node_modules/react-native-orientation-locker'
 
+  pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
+
   target 'MyAppTests' do
     inherit! :search_paths
     # Pods for testing

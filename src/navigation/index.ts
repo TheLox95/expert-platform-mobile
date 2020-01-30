@@ -6,6 +6,7 @@ import ImageGallery from '../tools/ImageGallery';
 import VideoPlayer from '../tools/VideoPlayer';
 import SearchScreen from '../pages/Search.screen';
 import ExpertScreen from '../pages/Expert.screen';
+import LoginScreen from '../pages/Login.screen';
 
 const AppNavigator = createStackNavigator(
 {
@@ -15,10 +16,11 @@ const AppNavigator = createStackNavigator(
     VideoPlayer: { screen: VideoPlayer },
     Search: { screen: SearchScreen },
     Expert: { screen: ExpertScreen },
+    Login: { screen: LoginScreen },
   },
   {
     headerMode: 'none',
-    initialRouteName: 'Home',
+    initialRouteName: 'Login',
     
   });
   
