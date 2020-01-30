@@ -1,19 +1,39 @@
 import axios, { AxiosRequestConfig } from 'axios';
-import { DispatchType } from 'src/state/GlobalState';
+import { DispatchFunction } from 'src/state/GlobalState';
 
 export type HttpInstance = <T>(config: AxiosRequestConfig) => Promise<T>
 
 
-const HttpConstructor = (dispatch: DispatchType): HttpInstance => {
-    return <T>(config: AxiosRequestConfig) => {
-        dispatch({ type: 'loading' })
-        return axios(config)
+const HttpConstructor = (dispatch: DispatchFunction, token: string | null): HttpInstance => {
+    return <T>(config: AxiosRequestConfig & { disableLoad?: boolean }) => {
+
+        if (config.disableLoad === true) {
+            dispatch({ type: 'loading' })
+        }
+
+        console.log(token)
+        
+        const authHeader = token ? { Authorization: `Bearer ${token}`} : {}
+
+        return axios({
+            ...config,
+            headers: {
+                ...config.headers,
+                ...authHeader
+            }
+        })
         .then(r =>{
-            dispatch({ type: 'loaded' })
+            if (config.disableLoad === true) {
+                dispatch({ type: 'loaded' })
+            }
+            
             return r.data as T;
         })
         .catch((error) => {
-            dispatch({ type: 'loaded' })
+            if (config.disableLoad === true) {
+                dispatch({ type: 'loaded' })
+            }
+            
             if (error.response) {
                 // The request was made and the server responded with a status code
                 // that falls out of the range of 2xx

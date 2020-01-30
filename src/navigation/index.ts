@@ -24,7 +24,7 @@ export default (token: string | null ) => {
       },
       {
         headerMode: 'none',
-        initialRouteName: 'CreateOffering',
+        initialRouteName: token? 'CreateOffering' : 'Login',
         
       });
 

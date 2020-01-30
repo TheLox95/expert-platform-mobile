@@ -5,11 +5,11 @@ import { WrappedComponent } from '../state/WrappedComponent';
 import Wrapper from '../state/Wrapper';
 import { Form, Item, Input, Button, Text } from 'native-base';
 import { useNavigation } from 'react-navigation-hooks';
-import Manager from 'src/tools/UploadManager/Manager';
+import Manager from '../tools/UploadManager/Manager';
 
 type OfferingFromData = { name: string, description: string, photos: [], videos: [] };
 
-const CreateOffering: WrappedComponent = ({ requests: { file: fileRequest } }) => {
+const CreateOffering: WrappedComponent = ({ dispatch,requests: { file: fileRequest } }) => {
     const { navigate } = useNavigation()
     const { control, handleSubmit, errors } = useForm<OfferingFromData>();
 
@@ -51,8 +51,13 @@ const CreateOffering: WrappedComponent = ({ requests: { file: fileRequest } }) =
                     })
                     .then(file => {
                         const manager = new Manager(fileRequest)
-                        manager.add(file)
+                        manager.set(file)
                         manager.upload()
+                        ?.subscribe(
+                          (progress) => dispatch({ type: 'info', payload: `Uploading ${progress}%` }),
+                          (file) => dispatch({ type: 'error', payload: `Error uploading ${file.name}` }),
+                          () => dispatch({ type: 'success', payload: `${file.name} uploaded!` }),
+                        )
                     })
                 }}>
                     <Text>Pick</Text>

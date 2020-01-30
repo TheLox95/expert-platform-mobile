@@ -14,8 +14,11 @@ export default function Wrapper<P extends {}>(Component: WrappedComponent<P>, op
     return (props: React.PropsWithChildren<P>) => {
         const [ loading ] = useGlobalState('loading');
         const [ error ] = useGlobalState('error');
+        const [ token ] = useGlobalState('token');
+        const [ info ] = useGlobalState('info');
+        const [ success ] = useGlobalState('success');
 
-        const http = HttpConstructor(dispatch)
+        const http = HttpConstructor(dispatch, token)
 
         const OfferingsRequest = OfferingRequest(http);
         const UsersRequest = UserRequest(http);
@@ -33,6 +36,26 @@ export default function Wrapper<P extends {}>(Component: WrappedComponent<P>, op
                 text: error,
                 type: 'danger',
                 onClose: () => {dispatch({ type: 'error', payload: null })}
+              })
+        }
+
+        if (info) {
+            Toast.show({
+                duration: 5000,
+                text: info,
+                style: { backgroundColor: '#607d8b'},
+                textStyle: { color: '#000000'},
+                onClose: () => {dispatch({ type: 'info', payload: null })}
+              })
+        }
+
+        if (success) {
+            Toast.show({
+                duration: 5000,
+                text: success,
+                type: 'success',
+                textStyle: { color: '#ffffff'},
+                onClose: () => {dispatch({ type: 'info', payload: null })}
               })
         }
 

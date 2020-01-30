@@ -21,6 +21,9 @@ const FileRequest: (http: HttpInstance) => FileRequestInterface = (http) => {
             onUploadProgress: function(progressEvent: {loaded: number, total: number} ) {
                 var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
                 subject.next(percentCompleted)
+                if (percentCompleted === 100) {
+                    subject.complete()
+                }
             },
             headers: {
                 'Content-Type': 'multipart/form-data'

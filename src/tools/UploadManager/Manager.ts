@@ -2,18 +2,17 @@ import File from "./LocalFile";
 import FileRequest, { FileRequestInterface } from "../../requests/File.request";
 
 export default class Manager { 
-    files: File[] = []
+    file: File | null = null
 
     constructor(private fileRequest: FileRequestInterface) {}
 
-    add(file: File){
-        this.files.push(file)
+    set(file: File){
+        this.file = file
     }
 
     upload() {
-        this.files.map(f => {
-            console.log('uploading' , f)
-            //this.fileRequest.upload(f).subscribe
-        });
+        if (!this.file) return
+
+        return this.fileRequest.upload(this.file)
     }
 }

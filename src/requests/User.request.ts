@@ -17,7 +17,6 @@ const UserRequest: (http: HttpInstance) => UserRequestInterface = (http) => {
     }
 
     const login = (u: string, p: string) => {
-        console.log(u, p)
         return http<{ jwt: string }>({
             url: `http://localhost:1337/auth/local/`,
             method: 'POST',
@@ -25,14 +24,8 @@ const UserRequest: (http: HttpInstance) => UserRequestInterface = (http) => {
                 identifier: u,
                 password: p,
             }
-        }).then((r) => {
-            console.log('token recieved')
-            return AsyncStorage.setItem('token', r.jwt).then(() => r)
-        })
-        .then(r => {
-            console.log('dispatching token')
-            return dispatch({ type: 'token', payload: r.jwt })
-        })
+        }).then((r) => AsyncStorage.setItem('token', r.jwt).then(() => r))
+        .then(r => dispatch({ type: 'token', payload: r.jwt }))
     }
 
     return {
