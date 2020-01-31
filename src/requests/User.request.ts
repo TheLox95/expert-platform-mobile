@@ -17,15 +17,21 @@ const UserRequest: (http: HttpInstance) => UserRequestInterface = (http) => {
     }
 
     const login = (u: string, p: string) => {
-        return http<{ jwt: string }>({
+        return http<{ jwt: string, user: User }>({
             url: `http://localhost:1337/auth/local/`,
             method: 'POST',
             data: {
                 identifier: u,
                 password: p,
             }
-        }).then((r) => AsyncStorage.setItem('token', r.jwt).then(() => r))
-        .then(r => dispatch({ type: 'token', payload: r.jwt }))
+        })
+        .then((r) => AsyncStorage.setItem('token', r.jwt).then(() => r))
+        .then((r) => AsyncStorage.setItem('user', JSON.stringify(r.user)).then(() => r))
+        .then(r => {
+            dispatch({ type: 'token', payload: r.jwt })
+            return r
+        })
+        .then(r => dispatch({ type: 'user', payload: r.user }))
     }
 
     return {

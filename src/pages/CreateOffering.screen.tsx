@@ -3,25 +3,33 @@ import DocumentPicker from 'react-native-document-picker';
 import { useForm, Controller, OnSubmit, EventFunction } from 'react-hook-form'
 import { WrappedComponent } from '../state/WrappedComponent';
 import Wrapper from '../state/Wrapper';
-import { Form, Item, Input, Button, Text } from 'native-base';
-import { useNavigation } from 'react-navigation-hooks';
+import { Form, Item, Input, Button, Text, Thumbnail } from 'native-base';
+import { useNavigation, useNavigationState } from 'react-navigation-hooks';
 import Manager from '../tools/UploadManager/Manager';
 import { useState } from 'react';
 import useFileUpload from '../tools/UploadManager/useFileUpload';
 
 type OfferingFromData = { name: string, description: string, photos: [], videos: [] };
 
-const CreateOffering: WrappedComponent = ({ dispatch,requests: { file: fileRequest } }) => {
+const CreateOffering: WrappedComponent = ({ useGlobalState ,requests: { file: fileRequest, offering } }) => {
     const { navigate } = useNavigation()
-    const { control, handleSubmit, errors } = useForm<OfferingFromData>();
+    const [ user ] = useGlobalState('user')
+    const { control, handleSubmit, errors, setValue } = useForm<OfferingFromData>();
 
-    const [ setVideo, msgVideo ] = useFileUpload('pick video', fileRequest)
-    const [ setImage, msgImage ] = useFileUpload('pick image', fileRequest)
-
-    const [ progress, updateProgress ] = useState(0);
+    const [ uploadedVideos ,setVideo, msgVideo ] = useFileUpload('pick video', fileRequest)
+    const [ uploadedImages, setImage, msgImage ] = useFileUpload('pick image', fileRequest)
 
     const send  = handleSubmit((data) => {
-      //user.login(data.username, data.password).then(() => navigate('Home'))
+      if (!user) return 
+
+      offering.create({
+        user: user,
+        name: data.name,
+        description: data.description,
+        photos: uploadedImages.map(p => p.id),
+        videos: uploadedImages.map(p => p.id)
+      })
+      .then((r) => navigate('Offering', { offering: r }))
     })
     const onChange: EventFunction = (t) => {
       return {
@@ -67,6 +75,10 @@ const CreateOffering: WrappedComponent = ({ dispatch,requests: { file: fileReque
             </Item>
 
             <Item>
+              {uploadedImages.map(f => <Thumbnail key={f?.id} square small source={{uri: `http://localhost:1337${f?.url}`}} /> )}
+            </Item>
+
+            <Item>
                 <Button onPress={() => {
                     DocumentPicker.pick({
                         type: [DocumentPicker.types.video],
@@ -75,8 +87,12 @@ const CreateOffering: WrappedComponent = ({ dispatch,requests: { file: fileReque
                       setVideo(file)
                     })
                 }}>
-                    <Text>{msgVideo}</Text>
+                  <Text>{msgVideo}</Text>
                 </Button>
+            </Item>
+
+            <Item>
+              {uploadedVideos.map(f => <Thumbnail key={f?.id} square small source={{uri: `http://localhost:1337${f?.thumbnail}`}} />)}
             </Item>
 
 

@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import { List, ListItem, Text, Container } from "native-base";
-import { useNavigation  } from 'react-navigation-hooks'
+// @ts-ignore
+import RNMinimizeApp from 'react-native-minimize';
+import { useNavigation, useFocusEffect  } from 'react-navigation-hooks'
 import Wrapper from "../state/Wrapper";
 import { WrappedComponent } from "../state/WrappedComponent";
 import { useEffect } from 'react';
@@ -19,6 +21,10 @@ const OfferingList: WrappedComponent = ({ requests, style }) => {
         offering.getOfferings()
         .then(o => updateOfferings(o));
     }, []);
+
+    useFocusEffect(useCallback(() => {
+      return () => RNMinimizeApp.minimizeApp();
+    }, []));
 
     return (
       <List>

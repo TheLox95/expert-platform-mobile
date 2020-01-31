@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 import { H2, Button } from "native-base";
 import { Image, TouchableOpacity, Text } from "react-native"
-import { useNavigationParam, useNavigation  } from 'react-navigation-hooks'
+import { useNavigationParam, useNavigation, useFocusEffect  } from 'react-navigation-hooks'
 import Wrapper from "../state/Wrapper";
 import { WrappedComponent } from "../state/WrappedComponent";
 // @ts-ignore
@@ -20,6 +20,10 @@ const OfferingPage: WrappedComponent = ({ requests }) => {
       offeringRequests.getOffering(offering.id)
       .then(o => updateOfferingToShow(o));
     }, []);
+
+    useFocusEffect(useCallback(() => {
+      return () => navigate('Home');
+    }, []));
     
     return (
       <>

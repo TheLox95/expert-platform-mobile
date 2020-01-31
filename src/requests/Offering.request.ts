@@ -1,5 +1,5 @@
 import { HttpInstance } from "./http";
-import { Offering } from "../models";
+import { Offering, User } from "../models";
 
 const OfferingRequest: (http: HttpInstance) => OfferingRequestInterface = (http) => {
     const searchOfferings = (searchTerm: string) => {
@@ -23,14 +23,27 @@ const OfferingRequest: (http: HttpInstance) => OfferingRequestInterface = (http)
         })
     }
 
+    const create = (data: {name: string, description: string, photos: number[], videos: number[], user: User}) => {
+        return http<Offering>({
+            url: `http://localhost:1337/offerings/`,
+            method: 'post',
+            data: {
+                ...data,
+                user: data.user.id
+            }
+        })
+    }
+
     return {
         searchOfferings,
         getOfferings,
-        getOffering
+        getOffering,
+        create
     }
 }
 
 export interface OfferingRequestInterface {
+    create: (data: {name: string, description: string, photos: number[], videos: number[], user: User}) => Promise<Offering>
     searchOfferings: (searchTerm: string) => Promise<Offering[]>
     getOfferings: () => Promise<Offering[]>
     getOffering: (id: number) => Promise<Offering>
