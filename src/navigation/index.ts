@@ -1,5 +1,5 @@
 import { createAppContainer } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
+import { createDrawerNavigator } from 'react-navigation-drawer';
 import OfferingListPage from '../pages/OfferingList.screen';
 import OfferingPage from '../pages/Offering.screen';
 import ImageGallery from '../tools/ImageGallery';
@@ -8,10 +8,11 @@ import SearchScreen from '../pages/Search.screen';
 import ExpertScreen from '../pages/Expert.screen';
 import LoginScreen from '../pages/Login.screen';
 import CreateOfferingScreen from '../pages/CreateOffering.screen';
+import SideMenu from '../tools/SideMenu';
 
 export default (token: string | null ) => {
 
-  const AppNavigator = createStackNavigator(
+  const AppNavigator = createDrawerNavigator(
     {
         Home: { screen: OfferingListPage },
         Offering: { screen: OfferingPage },
@@ -23,9 +24,8 @@ export default (token: string | null ) => {
         CreateOffering: { screen: CreateOfferingScreen },
       },
       {
-        headerMode: 'none',
-        initialRouteName: 'Login',
-        
+        contentComponent: SideMenu,
+        initialRouteName: token ? 'Home' : 'Login',        
       });
 
   return createAppContainer(AppNavigator)

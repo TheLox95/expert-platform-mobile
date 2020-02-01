@@ -10,6 +10,7 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import { Offering } from '../models';
 import Skeleton from '../tools/skeleton';
+import { BackHandler } from 'react-native';
 
 const OfferingList: WrappedComponent = ({ requests, style }) => {
     const [ offerings, updateOfferings ] = useState<Offering[]>([]);
@@ -22,9 +23,10 @@ const OfferingList: WrappedComponent = ({ requests, style }) => {
         .then(o => updateOfferings(o));
     }, []);
 
-    useFocusEffect(useCallback(() => {
-      return () => RNMinimizeApp.minimizeApp();
-    }, []));
+    useFocusEffect(() => {
+      const subscription = BackHandler.addEventListener('hardwareBackPress', () => RNMinimizeApp.minimizeApp());
+      return () => subscription.remove();
+    });
 
     return (
       <List>
