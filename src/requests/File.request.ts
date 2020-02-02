@@ -43,7 +43,6 @@ const FileRequest: (http: HttpInstance) => FileRequestInterface = (http) => {
             url: `http://localhost:1337/offerings/files/${file.id}`,
             method: 'delete'
         })
-
     }
 
     return {

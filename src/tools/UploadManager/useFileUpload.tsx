@@ -1,24 +1,32 @@
 import { useState, useEffect } from "react"
-import { Text } from 'native-base';
 import LocalFile from "./LocalFile"
 import Manager from "./Manager"
 import { FileRequestInterface } from "../../requests/File.request"
 import { dispatch } from "../../state/GlobalState";
 
-type ReturnType<T> = [ (file: T | null) => Promise<T>,T[], React.Dispatch<React.SetStateAction<LocalFile | null>>, string, () => void]
+type ReturnType<T> = [
+    (file: T | null) => Promise<T>,
+    T[],
+    React.Dispatch<React.SetStateAction<LocalFile | null>>,
+    string,
+    (opt?: { deleteUploaded?: boolean }) => void 
+]
 
 export default function useFileUpload<T extends { id: number }>(tag: string,fileRequest: FileRequestInterface): ReturnType<T>{
     const [ progress, setProgress ] = useState(0)
     const [ file, setFile ] = useState<LocalFile | null>(null)
-    const [ response, setResponse ] = useState<T[]>([])
+    const [ fileUploaded, setFilesUploaded ] = useState<T[]>([])
 
     const progressText = (progress > 0 && progress < 100) ? `${progress}%`: tag
     const manager = new Manager<T>(fileRequest)
 
-    const reset = () => {
+    const resetFunction = async (opt?: { deleteUploaded?: boolean } ) => {
+        if (opt?.deleteUploaded === true) {
+            await Promise.all(fileUploaded.map(r => manager.remove(r)))
+        }
         setProgress(0)
         setFile(null)
-        setResponse([])
+        setFilesUploaded([])
     }
 
     useEffect(() => {
@@ -31,7 +39,7 @@ export default function useFileUpload<T extends { id: number }>(tag: string,file
                     if (typeof soFar === 'number') {
                         setProgress(soFar)
                     } else {
-                        setResponse((prev) => {
+                        setFilesUploaded((prev) => {
                             return [...prev, soFar]
                         })
                     }
@@ -44,9 +52,9 @@ export default function useFileUpload<T extends { id: number }>(tag: string,file
     const remove = async (file: T | null) => {
         if (!file) throw new Error('No file pass');
         const deletedFile = await manager.remove(file)
-        setResponse(response.filter(r => r.id !== file.id))
+        setFilesUploaded(fileUploaded.filter(r => r.id !== file.id))
         return deletedFile;
     }
 
-    return [ remove, response, setFile, progressText, reset ]
+    return [ remove, fileUploaded, setFile, progressText, resetFunction ]
 }

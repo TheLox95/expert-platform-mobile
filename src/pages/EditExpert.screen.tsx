@@ -7,14 +7,16 @@ import { Form, Item, Input, Button, Text } from 'native-base';
 import { useNavigation, useFocusEffect } from 'react-navigation-hooks';
 import useFileUpload from '../tools/UploadManager/useFileUpload';
 import { Video, Photo } from 'src/models';
-import { Image, TouchableOpacity } from "react-native"
+import { Image, TouchableOpacity, BackHandler } from "react-native"
 import Modal from '../tools/Modal';
+import { useEffect } from 'react';
 
 type UserFromData = { username: string, aboutme: string, photos: Photo[], videos: Video[] };
 
 const EditExpertScreen: WrappedComponent = ({ useGlobalState ,requests: { file: fileRequest, user: userRequest } }) => {
     const { navigate } = useNavigation()
     const [ user ] = useGlobalState( 'user')
+    const [ wasSend, setWasSend ] = useState(false)
     const { control, handleSubmit, errors } = useForm<UserFromData>({
         defaultValues: {
             username: user?.username,
@@ -25,14 +27,19 @@ const EditExpertScreen: WrappedComponent = ({ useGlobalState ,requests: { file: 
     const [ deleteVideo, uploadedVideos ,setVideo, msgVideo, resetVideo ] = useFileUpload<Video>('pick video', fileRequest)
     const [ deleteImage, uploadedImages, setImage, msgImage, resetImage ] = useFileUpload<Photo>('pick image', fileRequest)
 
+    useEffect(() => {
+        userRequest.refresh()
+    }, []);
+
     useFocusEffect(useCallback(() => {
         // when using react-navigation-drawer the component does not unmount when you navigate to another router
         // so we have to reset the state manually when the scree loose focus
-        return () => {
-            resetVideo()
-            resetImage()
-        }
-    }, []));
+        const subscription = BackHandler.addEventListener('hardwareBackPress', () => {
+            resetVideo({ deleteUploaded: !wasSend })
+            resetImage({ deleteUploaded: !wasSend }) 
+        });
+        return () => subscription.remove();
+    }, [uploadedVideos.length, uploadedImages.length]));
 
     const [ imageToDelete, setImageToDelete] = useState<null | number>(null);
     const [ videoToDelete, setVideoToDelete] = useState<null | number>(null);
@@ -48,6 +55,7 @@ const EditExpertScreen: WrappedComponent = ({ useGlobalState ,requests: { file: 
         photos: user.photos.concat(...uploadedImages)
       })
       .then((r) => userRequest.refresh().then(() => r))
+      .then((r) => {setWasSend(true); return r})
       .then((r) => navigate('Expert', { id: r.id }))
     })
     const onChange: EventFunction = (t) => {
@@ -133,7 +141,7 @@ const EditExpertScreen: WrappedComponent = ({ useGlobalState ,requests: { file: 
                         type: [DocumentPicker.types.video],
                     })
                     .then(file => {
-                      setVideo(file)
+                        setVideo(file)
                     })
                 }}>
                   <Text>{msgVideo}</Text>
