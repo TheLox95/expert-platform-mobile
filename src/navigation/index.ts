@@ -9,6 +9,7 @@ import ExpertScreen from '../pages/Expert.screen';
 import LoginScreen from '../pages/Login.screen';
 import CreateOfferingScreen from '../pages/CreateOffering.screen';
 import SideMenu from '../tools/SideMenu';
+import EditExpertScreen from '../pages/EditExpert.screen';
 
 export default (token: string | null ) => {
 
@@ -20,6 +21,7 @@ export default (token: string | null ) => {
         VideoPlayer: { screen: VideoPlayer },
         Search: { screen: SearchScreen },
         Expert: { screen: ExpertScreen },
+        EditExpert: { screen: EditExpertScreen },
         Login: { screen: LoginScreen },
         CreateOffering: { screen: CreateOfferingScreen },
       },

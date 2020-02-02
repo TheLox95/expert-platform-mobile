@@ -15,7 +15,10 @@ const SideMenu: WrappedComponent = ({ useGlobalState }) => {
         <SafeAreaView style={{flex: 1}}>
             <FlatList
             data={[
-                { routeName: 'Home', data: {} }, { routeName: 'Expert', data: { id: user?.id} }
+                { routeName: 'Home', data: {} },
+                { routeName: 'Expert', data: { id: user?.id} },
+                { routeName: 'CreateOffering', data: { id: user?.id} },
+                { routeName: 'EditExpert', data: {} }
             ]}
             renderItem={({ item }) => (
                 <ListItem noBorder onPress={() => navigate(item.routeName, item.data)}>

@@ -8,6 +8,7 @@ import { useNavigation, useNavigationState } from 'react-navigation-hooks';
 import Manager from '../tools/UploadManager/Manager';
 import { useState } from 'react';
 import useFileUpload from '../tools/UploadManager/useFileUpload';
+import { Photo, Video } from 'src/models';
 
 type OfferingFromData = { name: string, description: string, photos: [], videos: [] };
 
@@ -16,8 +17,8 @@ const CreateOffering: WrappedComponent = ({ useGlobalState ,requests: { file: fi
     const [ user ] = useGlobalState('user')
     const { control, handleSubmit, errors, setValue } = useForm<OfferingFromData>();
 
-    const [ uploadedVideos ,setVideo, msgVideo ] = useFileUpload('pick video', fileRequest)
-    const [ uploadedImages, setImage, msgImage ] = useFileUpload('pick image', fileRequest)
+    const [ uploadedVideos ,setVideo, msgVideo ] = useFileUpload<Video>('pick video', fileRequest)
+    const [ uploadedImages, setImage, msgImage ] = useFileUpload<Photo>('pick image', fileRequest)
 
     const send  = handleSubmit((data) => {
       if (!user) return 

@@ -5,8 +5,6 @@ import { Image, TouchableOpacity, Text } from "react-native"
 import { useNavigationParam, useNavigation, useFocusEffect  } from 'react-navigation-hooks'
 import Wrapper from "../state/Wrapper";
 import { WrappedComponent } from "../state/WrappedComponent";
-// @ts-ignore
-import VideoThumbnail from 'react-native-video-thumbnail';
 import { Offering } from '../models';
 import Markdown from 'react-native-markdown-renderer';
 
@@ -24,7 +22,7 @@ const OfferingPage: WrappedComponent = ({ requests }) => {
     useFocusEffect(useCallback(() => {
       return () => navigate('Home');
     }, []));
-    
+
     return (
       <>
         <H2>{offeringToShow?.name}</H2>

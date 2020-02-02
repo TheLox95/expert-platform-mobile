@@ -9,6 +9,17 @@ const OfferingRequest: (http: HttpInstance) => OfferingRequestInterface = (http)
         })
     }
 
+    const edit = (data: { id: number, name: string, description: string, photos: number[], videos: number[], user: User}) => {
+        return http<Offering>({
+            url: `http://localhost:1337/offerings/${data.id}`,
+            method: 'PUT',
+            data: {
+                ...data,
+                user: data.user.id
+            }
+        })
+    }
+
     const getOfferings = () => {
         return http<Offering[]>({
             url: 'http://localhost:1337/offerings',
@@ -38,12 +49,14 @@ const OfferingRequest: (http: HttpInstance) => OfferingRequestInterface = (http)
         searchOfferings,
         getOfferings,
         getOffering,
-        create
+        create,
+        edit
     }
 }
 
 export interface OfferingRequestInterface {
     create: (data: {name: string, description: string, photos: number[], videos: number[], user: User}) => Promise<Offering>
+    edit: (data: {id: number, name: string, description: string, photos: number[], videos: number[], user: User}) => Promise<Offering>
     searchOfferings: (searchTerm: string) => Promise<Offering[]>
     getOfferings: () => Promise<Offering[]>
     getOffering: (id: number) => Promise<Offering>

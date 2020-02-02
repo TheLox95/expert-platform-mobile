@@ -5,7 +5,7 @@ import LocalFile from '../tools/UploadManager/LocalFile';
 import { Photo, Video } from 'src/models';
 
 const FileRequest: (http: HttpInstance) => FileRequestInterface = (http) => {
-    const upload = (file: LocalFile) => {
+    const upload = <T>(file: LocalFile) => {
         const data = new FormData()
         data.append('files', {
             name: file.name,
@@ -13,9 +13,9 @@ const FileRequest: (http: HttpInstance) => FileRequestInterface = (http) => {
             uri: Platform.OS === "android" ? file.uri : file.uri.replace("file://", "")
         })
 
-        const subject = new Subject<number | Photo | Video>();
+        const subject = new Subject<number | T>();
 
-        http<(Photo | Video)[]>({
+        http<T[]>({
             url: `http://localhost:1337/offerings/upload`,
             method: 'post',
             data,
@@ -38,13 +38,23 @@ const FileRequest: (http: HttpInstance) => FileRequestInterface = (http) => {
         return subject.asObservable();
     }
 
+    const remove = <T extends { id: number }>(file: T) => {
+        return http<T>({
+            url: `http://localhost:1337/offerings/files/${file.id}`,
+            method: 'delete'
+        })
+
+    }
+
     return {
         upload,
+        remove,
     }
 }
 
 export interface FileRequestInterface {
-    upload: (file: LocalFile) => Observable<number | Photo | Video>
+    remove: <T extends { id: number }>(id: T) => Promise<T>
+    upload: <T>(file: LocalFile) => Observable<number | T>
 }
 
 export default FileRequest;

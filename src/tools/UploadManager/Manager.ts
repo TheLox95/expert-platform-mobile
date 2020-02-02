@@ -1,7 +1,7 @@
 import File from "./LocalFile";
-import FileRequest, { FileRequestInterface } from "../../requests/File.request";
+import { FileRequestInterface } from "../../requests/File.request";
 
-export default class Manager { 
+export default class Manager<T extends { id: number }> { 
     file: File | null = null
 
     constructor(private fileRequest: FileRequestInterface) {}
@@ -13,6 +13,10 @@ export default class Manager {
     upload() {
         if (!this.file) return
 
-        return this.fileRequest.upload(this.file)
+        return this.fileRequest.upload<T>(this.file)
+    }
+
+    remove(file: T) {
+        return this.fileRequest.remove<T>(file)
     }
 }
