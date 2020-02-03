@@ -4,14 +4,13 @@ import { WrappedComponent } from '../state/WrappedComponent';
 import Wrapper from '../state/Wrapper';
 import { Form, Item, Input, Button, Text } from 'native-base';
 import { useNavigation } from 'react-navigation-hooks';
-import { useEffect } from 'react';
 
 const LoginScreen: WrappedComponent = ({ requests: { user } }) => {
     const { navigate } = useNavigation()
     const { control, handleSubmit, errors } = useForm<{username: string, password: string}>();
 
     const send  = handleSubmit((data) => {
-      user.login('expert', 'expert123').then(() => navigate('Home'))
+      user.login(data.username, data.password).then(() => navigate('Home'))
     })
     const onChange: EventFunction = (t) => {
       return {

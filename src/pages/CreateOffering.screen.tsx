@@ -1,12 +1,10 @@
 import React from 'react';
 import DocumentPicker from 'react-native-document-picker';
-import { useForm, Controller, OnSubmit, EventFunction } from 'react-hook-form'
+import { useForm, Controller, EventFunction } from 'react-hook-form'
 import { WrappedComponent } from '../state/WrappedComponent';
 import Wrapper from '../state/Wrapper';
 import { Form, Item, Input, Button, Text, Thumbnail } from 'native-base';
-import { useNavigation, useNavigationState } from 'react-navigation-hooks';
-import Manager from '../tools/UploadManager/Manager';
-import { useState } from 'react';
+import { useNavigation } from 'react-navigation-hooks';
 import useFileUpload from '../tools/UploadManager/useFileUpload';
 import { Photo, Video } from 'src/models';
 
@@ -15,10 +13,10 @@ type OfferingFromData = { name: string, description: string, photos: [], videos:
 const CreateOffering: WrappedComponent = ({ useGlobalState ,requests: { file: fileRequest, offering } }) => {
     const { navigate } = useNavigation()
     const [ user ] = useGlobalState('user')
-    const { control, handleSubmit, errors, setValue } = useForm<OfferingFromData>();
+    const { control, handleSubmit, errors } = useForm<OfferingFromData>();
 
-    const [ uploadedVideos ,setVideo, msgVideo ] = useFileUpload<Video>('pick video', fileRequest)
-    const [ uploadedImages, setImage, msgImage ] = useFileUpload<Photo>('pick image', fileRequest)
+    const [ ,uploadedVideos ,setVideo, msgVideo ] = useFileUpload<Video>('pick video', fileRequest)
+    const [ ,uploadedImages, setImage, msgImage ] = useFileUpload<Photo>('pick image', fileRequest)
 
     const send  = handleSubmit((data) => {
       if (!user) return 

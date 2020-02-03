@@ -1,18 +1,15 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 
 import { List, ListItem, Text, Container } from "native-base";
-// @ts-ignore
-import RNMinimizeApp from 'react-native-minimize';
-import { useNavigation, useFocusEffect } from 'react-navigation-hooks'
+import { useNavigation, useNavigationState } from 'react-navigation-hooks'
 import Wrapper from "../state/Wrapper";
 import { WrappedComponent } from "../state/WrappedComponent";
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { Offering } from '../models';
-import Skeleton from '../tools/skeleton';
-import { BackHandler } from 'react-native';
 
 const OfferingList: WrappedComponent = ({ requests, useGlobalState }) => {
+  const s = useNavigationState();
   const [offerings, updateOfferings] = useState<Offering[]>([]);
   const [, serOfferingToShow] = useGlobalState('offeringIdToDisplay');
   const { offering } = requests;
@@ -22,11 +19,6 @@ const OfferingList: WrappedComponent = ({ requests, useGlobalState }) => {
     offering.getOfferings()
       .then(o => updateOfferings(o));
   }, []);
-
-  useFocusEffect(() => {
-    const subscription = BackHandler.addEventListener('hardwareBackPress', () => RNMinimizeApp.minimizeApp());
-    return () => subscription.remove();
-  });
 
   return (
     <List>

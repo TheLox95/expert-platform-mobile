@@ -44,6 +44,8 @@ target 'MyApp' do
 
   pod 'RNExitApp', :path => '../node_modules/react-native-exit-app'
 
+  pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
+
   target 'MyAppTests' do
     inherit! :search_paths
     # Pods for testing

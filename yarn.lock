@@ -5495,11 +5495,6 @@ react-native-markdown-renderer@^3.2.8:
     prop-types "^15.5.10"
     react-native-fit-image "^1.5.2"
 
-react-native-minimize@^1.0.12:
-  version "1.0.12"
-  resolved "https://registry.yarnpkg.com/react-native-minimize/-/react-native-minimize-1.0.12.tgz#dd56197fb3fd6e8553cfa3686f939120309f3324"
-  integrity sha512-hD4Kesa7IJvlm79vDjhQiuvki0viMw4C3dxsw8i3vHzkz0R7aAerrsEDVGgQu6Rc/yRISevQOkh7HqV8mvwvvA==
-
 react-native-modal@^11.5.3:
   version "11.5.3"
   resolved "https://registry.yarnpkg.com/react-native-modal/-/react-native-modal-11.5.3.tgz#28b4c761680a165eaf1d2c0fb08e272c0191b39f"
