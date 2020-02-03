@@ -17,7 +17,7 @@ const SearchScreen: WrappedComponent = ({ requests }) => {
       <List>
           {(results as Offering[]).map(o => {
             return (
-              <ListItem key={o.id} onPress={() => navigate('Offering', { offering: o })}>
+              <ListItem key={o.id} onPress={() => navigate('Offering', { offeringIdToDisplay: o.id })}>
                 <Text>{o.name}</Text>
               </ListItem>
             );

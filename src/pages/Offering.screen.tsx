@@ -58,7 +58,7 @@ const OfferingPage: WrappedComponent = ({ useGlobalState ,requests }) => {
         );
       })}
 
-      <Button onPress={() => navigate('Expert', { id: offeringToShow?.user.id })}>
+      <Button onPress={() => navigate('Expert', { id: offeringToShow.user.id })}>
         <Text>See Expert</Text>
       </Button>
       <Button onPress={() => navigate('EditOffering', { id: offeringToShow.id })}>

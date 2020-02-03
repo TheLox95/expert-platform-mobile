@@ -2,30 +2,30 @@ import React, { useState, useEffect } from 'react';
 
 import { H2 } from "native-base";
 import { Image, TouchableOpacity } from "react-native"
-import { useNavigationParam, useNavigation  } from 'react-navigation-hooks'
+import { useNavigation, useNavigationParam  } from 'react-navigation-hooks'
 import Wrapper from "../state/Wrapper";
 import { WrappedComponent } from "../state/WrappedComponent";
-import { Offering, User } from '../models';
 import Markdown from 'react-native-markdown-renderer';
+import { User } from 'src/models';
 
 const ExpertProfile: WrappedComponent = ({ useGlobalState, requests: { user } }) => {
     const { navigate } = useNavigation();
-    const [ userToShow ] = useGlobalState('user');
+    const [ userToShow, setUserToShow ] = useState<User | null>();
+    const id = useNavigationParam('id');
 
     useEffect(() => {
-      user.refresh()
+      user.getUser(id)
+      .then(u => setUserToShow(u))
     }, []);
 
     if (!userToShow) return null;
 
     return (
       <>
-        <H2>{userToShow?.username}</H2>
-        {userToShow ? (
-          <Markdown>
-            {userToShow.aboutme}
-          </Markdown>        
-        ): null}
+        <H2>{userToShow.username}</H2>
+        <Markdown>
+          {userToShow.aboutme}
+        </Markdown>
 
         {userToShow.videos.map(v => {
           return (

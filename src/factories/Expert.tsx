@@ -34,14 +34,12 @@ export const SideMenu = Wrapper(({ useGlobalState, ...props }) => {
         <SafeAreaView style={{flex: 1}}>
             <FlatList
             data={[
-                { routeName: 'Home', data: {} },
-                { routeName: 'Expert', data: { id: user?.id} },
-                { routeName: 'CreateOffering', data: { id: user?.id} },
-                { routeName: 'EditExpert', data: {} }
+                { routeName: 'Home', name: 'Home', data: {} },
+                { routeName: 'Expert', name: 'Profile', data: { id: user?.id} },
             ]}
             renderItem={({ item }) => (
                 <ListItem noBorder onPress={() => navigate(item.routeName, item.data)}>
-                    <Text>{item.routeName}</Text>
+                    <Text>{item.name}</Text>
                 </ListItem>
             )}
             keyExtractor={(item, index) => index.toString()}
