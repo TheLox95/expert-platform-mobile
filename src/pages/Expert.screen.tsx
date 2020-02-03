@@ -16,8 +16,6 @@ const ExpertProfile: WrappedComponent = ({ useGlobalState, requests: { user } })
       user.refresh()
     }, []);
 
-    console.log(userToShow?.photos.length)
-
     return (
       <>
         <H2>{userToShow?.username}</H2>

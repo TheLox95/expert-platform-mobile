@@ -1,7 +1,7 @@
 
 import React from 'react';
 import NativeModal from "react-native-modal";
-import { Content, H3 } from 'native-base';
+import { Content, Text } from 'native-base';
 import { useState } from 'react';
 
 type Props = { title: string, open: boolean, onCancel: () => void }
@@ -12,7 +12,7 @@ const Modal: React.FunctionComponent<Props> = ({ children, title, open, onCancel
 
     return (
         <NativeModal
-
+            hasBackdrop={true}
             isVisible={isVisible}
             style={{ flexDirection: 'row', display: 'flex', alignItems: 'center'}}
             onBackdropPress={() => {
@@ -21,7 +21,7 @@ const Modal: React.FunctionComponent<Props> = ({ children, title, open, onCancel
             }}
         >
             <Content style={{ backgroundColor: '#FFFFFF', padding: 20 }}>
-                <H3 style={{ textAlign: 'center', marginBottom: 10 }}>{title}</H3>
+                <Text style={{ textAlign: 'center', marginBottom: 10 }}>{title}</Text>
                 {children}
             </Content>
         </NativeModal>

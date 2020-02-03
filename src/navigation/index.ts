@@ -27,7 +27,9 @@ export default (token: string | null ) => {
       },
       {
         contentComponent: SideMenu,
-        initialRouteName: token ? 'Home' : 'Login',        
+        initialRouteName: token ? 'Home' : 'Login',
+        unmountInactiveRoutes: true,
+        backBehavior: 'history'
       });
 
   return createAppContainer(AppNavigator)

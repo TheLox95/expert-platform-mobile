@@ -1,21 +1,21 @@
 
-import React, { useCallback } from 'react';
+import React from 'react';
 import ReactNativevideo from 'react-native-video';
 import Orientation from 'react-native-orientation-locker';
-import { Photo, Video } from 'src/models';
-import { useNavigationParam, useFocusEffect } from 'react-navigation-hooks';
+import { Video } from 'src/models';
+import { useNavigationParam } from 'react-navigation-hooks';
 import { Dimensions, StatusBar } from 'react-native';
 import { useEffect } from 'react';
-import { useState } from 'react';
 
 const VideoPlayer: React.FunctionComponent = () => {
     const video: Video = useNavigationParam('video');
 
-    useFocusEffect(useCallback(() => {
-        // when using react-navigation-drawer the component does not unmount when you navigate to another router
-        // so we have to reset the state manually when the scree loose focus
-        return () => Orientation.unlockAllOrientations();
-    }, []));
+    useEffect(() => {
+        return () => {
+            Orientation.unlockAllOrientations();
+            StatusBar.setHidden(false);
+        }
+    }, []);
 
     Orientation.lockToLandscape();
     StatusBar.setHidden(true);

@@ -4,6 +4,7 @@ import { WrappedComponent } from '../state/WrappedComponent';
 import Wrapper from '../state/Wrapper';
 import { Form, Item, Input, Button, Text } from 'native-base';
 import { useNavigation } from 'react-navigation-hooks';
+import { useEffect } from 'react';
 
 const LoginScreen: WrappedComponent = ({ requests: { user } }) => {
     const { navigate } = useNavigation()
