@@ -11,26 +11,18 @@ import { Image, TouchableOpacity, BackHandler } from "react-native"
 import Modal from '../tools/Modal';
 import { useEffect } from 'react';
 
-type UserFromData = { username: string, aboutme: string, photos: Photo[], videos: Video[] };
-
-const EditExpertScreen: WrappedComponent = ({ useGlobalState ,requests: { file: fileRequest, offering: offeringRequets } }) => {
+const EditExpertScreen: WrappedComponent = ({ requests: { file: fileRequest, offering: offeringRequets } }) => {
     const { navigate } = useNavigation()
-    const [ wasSend, setWasSend ] = useState(false)
+    const [wasSend, setWasSend] = useState(false)
     const offeringId = useNavigationParam('id')
-    const [ offeringToEdit, setOfferingToEdit ] = useState<Offering | null>(null)
-    const { control, handleSubmit, errors } = useForm<UserFromData>({
-        defaultValues: {
-            username: user?.username,
-            aboutme: user?.aboutme,
-        }
-    });
+    const [offeringToEdit, setOfferingToEdit] = useState<Offering | null>(null)
 
-    const [ deleteVideo, uploadedVideos ,setVideo, msgVideo, resetVideo ] = useFileUpload<Video>('pick video', fileRequest)
-    const [ deleteImage, uploadedImages, setImage, msgImage, resetImage ] = useFileUpload<Photo>('pick image', fileRequest)
+    const [deleteVideo, uploadedVideos, setVideo, msgVideo, resetVideo] = useFileUpload<Video>('pick video', fileRequest)
+    const [deleteImage, uploadedImages, setImage, msgImage, resetImage] = useFileUpload<Photo>('pick image', fileRequest)
 
     useEffect(() => {
         offeringRequets.getOffering(offeringId)
-        .then(o => setOfferingToEdit(o))
+            .then(o => setOfferingToEdit(o))
     }, []);
 
     useFocusEffect(useCallback(() => {
@@ -38,59 +30,60 @@ const EditExpertScreen: WrappedComponent = ({ useGlobalState ,requests: { file: 
         // so we have to reset the state manually when the scree loose focus
         const subscription = BackHandler.addEventListener('hardwareBackPress', () => {
             resetVideo({ deleteUploaded: !wasSend })
-            resetImage({ deleteUploaded: !wasSend }) 
+            resetImage({ deleteUploaded: !wasSend })
         });
         return () => subscription.remove();
     }, [uploadedVideos.length, uploadedImages.length]));
 
-    const [ imageToDelete, setImageToDelete] = useState<null | number>(null);
-    const [ videoToDelete, setVideoToDelete] = useState<null | number>(null);
+    const [imageToDelete, setImageToDelete] = useState<null | number>(null);
+    const [videoToDelete, setVideoToDelete] = useState<null | number>(null);
 
-    const send  = handleSubmit((data) => {
-      if (!user) return 
+    const { control, handleSubmit, errors } = useForm<Offering>();
 
-      userRequest.update({
-        ...user,
-        username: data.username,
-        aboutme: data.aboutme,
-        videos: user.videos.concat(...uploadedVideos),
-        photos: user.photos.concat(...uploadedImages)
-      })
-      .then((r) => userRequest.refresh().then(() => r))
-      .then((r) => {setWasSend(true); return r})
-      .then((r) => navigate('Expert', { id: r.id }))
+    const send = handleSubmit((data) => {
+        if (!offeringToEdit) return
+
+        offeringRequets.edit({
+            ...offeringToEdit,
+            name: data.name,
+            description: data.description,
+            videos: offeringToEdit.videos.concat(...uploadedVideos),
+            photos: offeringToEdit.photos.concat(...uploadedImages)
+        })
+            .then((r) => { setWasSend(true); return r })
+            .then((offering) => navigate('Offering', { offering }))
     })
     const onChange: EventFunction = (t) => {
-      return {
-        value: t[0].nativeEvent.text,
-      };
+        return {
+            value: t[0].nativeEvent.text,
+        };
     };
 
-    if (!offeringToEdit) {
-        return null
-    }
+    if (!offeringToEdit) return null;
 
     return (
         <Form>
             <Item>
-              <Controller
-                as={<Input placeholder="Username" />}
-                control={control}
-                name="username"
-                onChange={onChange}
-                rules={{ required: true }}
-              />
-              {errors.username && <Text>This is required.</Text>}
+                <Controller
+                    as={<Input placeholder="Name" />}
+                    control={control}
+                    name="name"
+                    onChange={onChange}
+                    rules={{ required: true }}
+                    defaultValue={offeringToEdit.name}
+                />
+                {errors.name && <Text>This is required.</Text>}
             </Item>
             <Item>
-            <Controller
-                as={<Input placeholder="About me" />}
-                control={control}
-                name="aboutme"
-                onChange={onChange}
-                rules={{ required: true }}
-              />
-              {errors.aboutme && <Text>This is required.</Text>}
+                <Controller
+                    as={<Input placeholder="Description" />}
+                    control={control}
+                    name="description"
+                    onChange={onChange}
+                    rules={{ required: true }}
+                    defaultValue={offeringToEdit.description}
+                />
+                {errors.description && <Text>This is required.</Text>}
             </Item>
 
 
@@ -99,23 +92,23 @@ const EditExpertScreen: WrappedComponent = ({ useGlobalState ,requests: { file: 
                     DocumentPicker.pick({
                         type: [DocumentPicker.types.images],
                     })
-                    .then(file => {
-                        setImage(file)
-                    })
+                        .then(file => {
+                            setImage(file)
+                        })
                 }}>
-                  <Text>{msgImage}</Text>
+                    <Text>{msgImage}</Text>
                 </Button>
             </Item>
 
             <Item>
-                {user?.photos.concat(...uploadedImages).map(f => {
+                {offeringToEdit.photos.concat(...uploadedImages).map(f => {
                     return (
                         <TouchableOpacity
                             key={f.id}
                             onPress={() => setImageToDelete(f.id)}
                         >
                             <Image
-                                style={{width: 50, height: 50}}
+                                style={{ width: 50, height: 50 }}
                                 source={{ uri: `http://localhost:1337${f.url}` }}
                             />
                         </TouchableOpacity>
@@ -124,21 +117,20 @@ const EditExpertScreen: WrappedComponent = ({ useGlobalState ,requests: { file: 
             </Item>
 
 
-            {imageToDelete && user ? (
+            {imageToDelete ? (
                 <Modal open={true} title={'Select one'} onCancel={() => setImageToDelete(null)}>
-                    <Button style={{ marginBottom: 5}} onPress={() => navigate('ImageGallery', { photos: user.photos })}>
+                    <Button style={{ marginBottom: 5 }} onPress={() => navigate('ImageGallery', { photos: offeringToEdit.photos })}>
                         <Text>See photos</Text>
                     </Button>
-                    <Button danger={true} style={{ marginTop: 5}} onPress={() => {
-                        const selectedImg = uploadedImages.concat(user.photos).find(i => i.id === imageToDelete)
+                    <Button danger={true} style={{ marginTop: 5 }} onPress={() => {
+                        const selectedImg = uploadedImages.concat(offeringToEdit.photos).find(i => i.id === imageToDelete)
                         deleteImage(selectedImg || null)
-                        .then(() => setImageToDelete(null))
-                        .then(() => userRequest.refresh())
+                            .then(() => setImageToDelete(null))
                     }}>
                         <Text>Delete</Text>
                     </Button>
                 </Modal>
-            ): null}
+            ) : null}
 
 
             <Item>
@@ -146,51 +138,50 @@ const EditExpertScreen: WrappedComponent = ({ useGlobalState ,requests: { file: 
                     DocumentPicker.pick({
                         type: [DocumentPicker.types.video],
                     })
-                    .then(file => {
-                        setVideo(file)
-                    })
+                        .then(file => {
+                            setVideo(file)
+                        })
                 }}>
-                  <Text>{msgVideo}</Text>
+                    <Text>{msgVideo}</Text>
                 </Button>
             </Item>
 
-            {videoToDelete && user ? (
+            {videoToDelete ? (
                 <Modal open={true} title={'Select one'} onCancel={() => setVideoToDelete(null)}>
-                    <Button style={{ marginBottom: 5}} onPress={() => navigate('VideoPlayer', { video: user.videos.find(v => v.id === videoToDelete ) })}>
+                    <Button style={{ marginBottom: 5 }} onPress={() => navigate('VideoPlayer', { video: offeringToEdit.videos.find(v => v.id === videoToDelete) })}>
                         <Text>Watch Video</Text>
                     </Button>
-                    <Button danger={true} style={{ marginTop: 5}} onPress={() => {
-                        const selectedVideo = uploadedVideos.concat(user.videos).find(i => i.id === videoToDelete)
+                    <Button danger={true} style={{ marginTop: 5 }} onPress={() => {
+                        const selectedVideo = uploadedVideos.concat(offeringToEdit.videos).find(i => i.id === videoToDelete)
                         deleteVideo(selectedVideo || null)
-                        .then(() => setVideoToDelete(null))
-                        .then(() => userRequest.refresh())
+                            .then(() => setVideoToDelete(null))
                     }}>
                         <Text>Delete</Text>
                     </Button>
                 </Modal>
-            ): null}
+            ) : null}
 
             <Item>
-                {user?.videos.concat(...uploadedVideos).map(f => {
+                {offeringToEdit.videos.concat(...uploadedVideos).map(f => {
                     return (
                         <TouchableOpacity
                             key={f.id}
                             onPress={() => setVideoToDelete(f.id)}
                         >
                             <Image
-                                style={{width: 50, height: 50}}
+                                style={{ width: 50, height: 50 }}
                                 source={{ uri: `http://localhost:1337${f.thumbnail}` }}
                             />
                         </TouchableOpacity>
                     );
                 })}
-            </Item>          
+            </Item>
 
 
             <Button onPress={send}>
                 <Text>Create</Text>
             </Button>
-          </Form>
+        </Form>
     );
 
 }

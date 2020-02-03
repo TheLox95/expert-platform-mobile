@@ -10,6 +10,7 @@ const reducer = (state: GlobalStateInterface, action: States ) => {
       case 'success': return { ...state, success: action.payload }; 
       case 'user': return { ...state, user: action.payload }; 
       case 'token': return { ...state, token: action.payload };
+      case 'offeringIdToDisplay': return { ...state, offeringIdToDisplay: action.payload };
       default: return state;
     }
   };

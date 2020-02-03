@@ -10,6 +10,7 @@ import LoginScreen from '../pages/Login.screen';
 import CreateOfferingScreen from '../pages/CreateOffering.screen';
 import SideMenu from '../tools/SideMenu';
 import EditExpertScreen from '../pages/EditExpert.screen';
+import EditOfferingScreen from '../pages/EditOffering.screen';
 
 export default (token: string | null ) => {
 
@@ -24,6 +25,7 @@ export default (token: string | null ) => {
         EditExpert: { screen: EditExpertScreen },
         Login: { screen: LoginScreen },
         CreateOffering: { screen: CreateOfferingScreen },
+        EditOffering: { screen: EditOfferingScreen },
       },
       {
         contentComponent: SideMenu,

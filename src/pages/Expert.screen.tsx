@@ -16,6 +16,8 @@ const ExpertProfile: WrappedComponent = ({ useGlobalState, requests: { user } })
       user.refresh()
     }, []);
 
+    if (!userToShow) return null;
+
     return (
       <>
         <H2>{userToShow?.username}</H2>
@@ -25,7 +27,7 @@ const ExpertProfile: WrappedComponent = ({ useGlobalState, requests: { user } })
           </Markdown>        
         ): null}
 
-        {userToShow ? userToShow.videos.map(v => {
+        {userToShow.videos.map(v => {
           return (
             <TouchableOpacity
               key={v.id}
@@ -37,9 +39,9 @@ const ExpertProfile: WrappedComponent = ({ useGlobalState, requests: { user } })
               />
             </TouchableOpacity>
           );
-        }): null}
+        })}
 
-        {userToShow ? userToShow.photos.map(p => {
+        {userToShow.photos.map(p => {
           return (
             <TouchableOpacity
               key={p.id}
@@ -51,7 +53,7 @@ const ExpertProfile: WrappedComponent = ({ useGlobalState, requests: { user } })
               />
             </TouchableOpacity>
           );
-        }): null}
+        })}
       </>
     );
 }
