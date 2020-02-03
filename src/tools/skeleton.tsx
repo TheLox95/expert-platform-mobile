@@ -4,15 +4,17 @@ import { WrappedComponent } from "../state/WrappedComponent";
 import Wrapper from "../state/Wrapper";
 import SearchBar from './SearchBar';
 import { useState } from 'react';
+import { useNavigation } from 'react-navigation-hooks';
 
 const Skeleton: React.FunctionComponent = ({ children }) => {
   const [ isSearching, updateIsSearching ] = useState(false)
+  const { toggleDrawer } = useNavigation();
     return (
       <Container>
         { isSearching ? <SearchBar onEndEditing={() => updateIsSearching(false)} /> : (
           <Header>
           <Left>
-            <Button transparent>
+            <Button transparent onPress={() => toggleDrawer()}>
               <Icon name='menu' />
             </Button>
           </Left>

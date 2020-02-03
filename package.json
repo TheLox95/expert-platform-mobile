@@ -20,17 +20,22 @@
     "react-hook-form": "^4.7.2",
     "react-hooks-global-state": "^1.0.0-alpha.2",
     "react-native": "0.61.5",
+    "react-native-document-picker": "^3.2.4",
     "react-native-gallery-swiper": "^1.25.2",
     "react-native-gesture-handler": "^1.5.3",
     "react-native-markdown-renderer": "^3.2.8",
+    "react-native-minimize": "^1.0.12",
+    "react-native-modal": "^11.5.3",
     "react-native-orientation-locker": "^1.1.8",
     "react-native-reanimated": "^1.7.0",
     "react-native-safe-area-context": "^0.6.2",
     "react-native-screens": "^2.0.0-alpha.31",
     "react-native-video": "^5.0.2",
     "react-navigation": "^4.0.10",
+    "react-navigation-drawer": "^2.3.3",
     "react-navigation-hooks": "^1.1.0",
-    "react-navigation-stack": "^2.0.16"
+    "react-navigation-stack": "^2.0.16",
+    "rxjs": "^6.5.4"
   },
   "devDependencies": {
     "@babel/core": "^7.6.2",

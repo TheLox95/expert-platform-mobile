@@ -8,15 +8,15 @@ import { WrappedComponent } from "../state/WrappedComponent";
 import { Offering, User } from '../models';
 import Markdown from 'react-native-markdown-renderer';
 
-const ExpertProfile: WrappedComponent = ({ requests: { user } }) => {
-    const [ userToShow, updateuserToShow ] = useState<User | null>(null);
-    const userId = useNavigationParam('id');
+const ExpertProfile: WrappedComponent = ({ useGlobalState, requests: { user } }) => {
     const { navigate } = useNavigation();
+    const [ userToShow ] = useGlobalState('user');
 
     useEffect(() => {
-        user.getUser(userId)
-      .then(o => updateuserToShow(o));
+      user.refresh()
     }, []);
+
+    if (!userToShow) return null;
 
     return (
       <>
@@ -27,7 +27,7 @@ const ExpertProfile: WrappedComponent = ({ requests: { user } }) => {
           </Markdown>        
         ): null}
 
-        {userToShow ? userToShow.videos.map(v => {
+        {userToShow.videos.map(v => {
           return (
             <TouchableOpacity
               key={v.id}
@@ -39,9 +39,9 @@ const ExpertProfile: WrappedComponent = ({ requests: { user } }) => {
               />
             </TouchableOpacity>
           );
-        }): null}
+        })}
 
-        {userToShow ? userToShow.photos.map(p => {
+        {userToShow.photos.map(p => {
           return (
             <TouchableOpacity
               key={p.id}
@@ -53,7 +53,7 @@ const ExpertProfile: WrappedComponent = ({ requests: { user } }) => {
               />
             </TouchableOpacity>
           );
-        }): null}
+        })}
       </>
     );
 }

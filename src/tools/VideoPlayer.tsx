@@ -2,17 +2,19 @@
 import React from 'react';
 import ReactNativevideo from 'react-native-video';
 import Orientation from 'react-native-orientation-locker';
-import { Photo, Video } from 'src/models';
+import { Video } from 'src/models';
 import { useNavigationParam } from 'react-navigation-hooks';
 import { Dimensions, StatusBar } from 'react-native';
 import { useEffect } from 'react';
-import { useState } from 'react';
 
 const VideoPlayer: React.FunctionComponent = () => {
     const video: Video = useNavigationParam('video');
 
     useEffect(() => {
-        return () => Orientation.unlockAllOrientations();
+        return () => {
+            Orientation.unlockAllOrientations();
+            StatusBar.setHidden(false);
+        }
     }, []);
 
     Orientation.lockToLandscape();
