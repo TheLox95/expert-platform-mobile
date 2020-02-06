@@ -1,21 +1,22 @@
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import ReactNativevideo from 'react-native-video';
 import Orientation from 'react-native-orientation-locker';
 import { Video } from 'src/models';
-import { useNavigationParam } from 'react-navigation-hooks';
-import { Dimensions, StatusBar } from 'react-native';
+import { useNavigationParam, useFocusEffect } from 'react-navigation-hooks';
+import { Dimensions, StatusBar, BackHandler } from 'react-native';
 import { useEffect } from 'react';
 
 const VideoPlayer: React.FunctionComponent = () => {
     const video: Video = useNavigationParam('video');
 
-    useEffect(() => {
-        return () => {
+    useFocusEffect(useCallback(() => {
+        const subscription = BackHandler.addEventListener('hardwareBackPress', () => {
             Orientation.unlockAllOrientations();
             StatusBar.setHidden(false);
-        }
-    }, []);
+        });
+        return () => subscription.remove();
+      }, []));
 
     Orientation.lockToLandscape();
     StatusBar.setHidden(true);

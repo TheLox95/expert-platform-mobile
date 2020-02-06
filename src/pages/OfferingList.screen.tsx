@@ -9,9 +9,7 @@ import { useState } from 'react';
 import { Offering } from '../models';
 
 const OfferingList: WrappedComponent = ({ requests, useGlobalState }) => {
-  const s = useNavigationState();
   const [offerings, updateOfferings] = useState<Offering[]>([]);
-  const [, serOfferingToShow] = useGlobalState('offeringIdToDisplay');
   const { offering } = requests;
   const { navigate } = useNavigation();
 
@@ -25,8 +23,7 @@ const OfferingList: WrappedComponent = ({ requests, useGlobalState }) => {
       {offerings.map(o => {
         return (
           <ListItem key={o.id} onPress={() => {
-            serOfferingToShow(o.id)
-            navigate('Offering')
+            navigate('Offering', { id: o.id })
           }}>
             <Text>{o.name}</Text>
           </ListItem>

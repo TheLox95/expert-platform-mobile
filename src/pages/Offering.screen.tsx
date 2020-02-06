@@ -1,27 +1,39 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 import { H2, Button } from "native-base";
 import { Image, TouchableOpacity, Text } from "react-native"
-import { useNavigationParam, useNavigation } from 'react-navigation-hooks'
+import { useNavigationParam, useNavigation, useFocusEffect, useNavigationState } from 'react-navigation-hooks'
 import Wrapper from "../state/Wrapper";
 import { WrappedComponent } from "../state/WrappedComponent";
 import { Offering } from '../models';
 import Markdown from 'react-native-markdown-renderer';
 
-const OfferingPage: WrappedComponent = ({ useGlobalState ,requests }) => {
+const OfferingPage: WrappedComponent = ({ requests }) => {
   const [offeringToShow, updateOfferingToShow] = useState<Offering | null>(null);
-  const [ offeringId ] = useGlobalState('offeringIdToDisplay');
+  let offeringId = useNavigationParam('id');
   const { navigate } = useNavigation();
   const { offering: offeringRequests } = requests;
 
-  useEffect(() => {
+  useFocusEffect(useCallback(() => {
     if (!offeringId) return;
-    
+
     offeringRequests.getOffering(offeringId)
       .then(o => updateOfferingToShow(o));
-  }, []);
+    return () => {
+      updateOfferingToShow(null)
+      // useFocusEffect is called when component takes focus
+      // offeringId is part of the state react-navigation-hooks
+      // when we pass a new offeringId the useFocusEffect calls the function with the old offeringId value
+      // reads the new value and call it again
+      // we set offeringId to null to trigger update of the function with the new value
+      offeringId = null
+    }
+  }, [offeringId]));
+
 
   if (!offeringToShow) return null;
+
+  console.log(offeringToShow)
 
   return (
     <>

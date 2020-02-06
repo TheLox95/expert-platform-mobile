@@ -10,7 +10,7 @@ const LoginScreen: WrappedComponent = ({ requests: { user } }) => {
     const { control, handleSubmit, errors } = useForm<{username: string, password: string}>();
 
     const send  = handleSubmit((data) => {
-      user.login(data.username, data.password).then(() => navigate('Home'))
+      user.login({ identifier: data.username, password: data.password}).then(() => navigate('Home'))
     })
     const onChange: EventFunction = (t) => {
       return {
