@@ -10,6 +10,7 @@ import { Video, Photo } from 'src/models';
 import { BackHandler } from "react-native"
 import { useEffect } from 'react';
 import FileEditableList from '../tools/FileEditableList';
+import { DefaultTheme } from '../theme';
 
 type UserFromData = { username: string, aboutme: string, photos: Photo[], videos: Video[] };
 
@@ -86,7 +87,7 @@ const EditExpertScreen: WrappedComponent = ({ useGlobalState ,requests: { file: 
 
 
             <Item>
-                <Button onPress={() => {
+                <Button style={DefaultTheme.backgroundColorPrimaryColor} onPress={() => {
                     DocumentPicker.pick({type: [DocumentPicker.types.images]})
                     .then(file => {
                         setImage(file)
@@ -103,7 +104,7 @@ const EditExpertScreen: WrappedComponent = ({ useGlobalState ,requests: { file: 
             }}/>
 
             <Item>
-                <Button onPress={() => {
+                <Button style={DefaultTheme.backgroundColorPrimaryColor} onPress={() => {
                     DocumentPicker.pick({type: [DocumentPicker.types.video]})
                     .then(file => {
                         setVideo(file)
@@ -119,7 +120,7 @@ const EditExpertScreen: WrappedComponent = ({ useGlobalState ,requests: { file: 
                 .then(() => userRequest.refresh())
             }}/>
 
-            <Button onPress={send}>
+            <Button style={DefaultTheme.backgroundColorPrimaryColor} onPress={send}>
                 <Text>Create</Text>
             </Button>
           </Form>

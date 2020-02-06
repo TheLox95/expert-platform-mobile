@@ -7,6 +7,7 @@ import { Form, Item, Input, Button, Text, Thumbnail } from 'native-base';
 import { useNavigation } from 'react-navigation-hooks';
 import useFileUpload from '../tools/UploadManager/useFileUpload';
 import { Photo, Video } from 'src/models';
+import { DefaultTheme } from '../theme';
 
 type OfferingFromData = { name: string, description: string, photos: [], videos: [] };
 
@@ -61,7 +62,7 @@ const CreateOffering: WrappedComponent = ({ useGlobalState ,requests: { file: fi
 
 
             <Item>
-                <Button onPress={() => {
+                <Button style={DefaultTheme.backgroundColorPrimaryColor} onPress={() => {
                     DocumentPicker.pick({
                         type: [DocumentPicker.types.images],
                     })
@@ -78,7 +79,7 @@ const CreateOffering: WrappedComponent = ({ useGlobalState ,requests: { file: fi
             </Item>
 
             <Item>
-                <Button onPress={() => {
+                <Button style={DefaultTheme.backgroundColorPrimaryColor} onPress={() => {
                     DocumentPicker.pick({
                         type: [DocumentPicker.types.video],
                     })
@@ -95,7 +96,7 @@ const CreateOffering: WrappedComponent = ({ useGlobalState ,requests: { file: fi
             </Item>
 
 
-            <Button onPress={send}>
+            <Button style={DefaultTheme.backgroundColorPrimaryColor} onPress={send}>
                 <Text>Create</Text>
             </Button>
           </Form>

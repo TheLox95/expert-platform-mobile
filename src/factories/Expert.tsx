@@ -4,18 +4,19 @@ import { Left, Button, Icon, Right, ListItem, Text } from "native-base";
 import { useNavigation } from 'react-navigation-hooks';
 import { SafeAreaView, FlatList } from 'react-navigation';
 import Wrapper from '../state/Wrapper';
+import { DefaultTheme } from '../theme';
 
 export type HeaderProps = { toggleDrawer: () => void, setIsSearching: (v: boolean ) => void }
 export const HeaderComponent: React.FunctionComponent<HeaderProps> = ({ toggleDrawer, setIsSearching }) => {
     return (
         <>
             <Left>
-                <Button transparent onPress={() => toggleDrawer()}>
+                <Button style={DefaultTheme.backgroundColorPrimaryColor} transparent onPress={() => toggleDrawer()}>
                     <Icon name='menu' />
                 </Button>
             </Left>
             <Right>
-                <Button transparent onPress={() => setIsSearching(true)}>
+                <Button style={DefaultTheme.backgroundColorPrimaryColor} transparent onPress={() => setIsSearching(true)}>
                     <Icon name='search' />
                 </Button>
             </Right>

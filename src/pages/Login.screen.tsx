@@ -2,8 +2,9 @@ import React from 'react';
 import { useForm, Controller, OnSubmit, EventFunction } from 'react-hook-form'
 import { WrappedComponent } from '../state/WrappedComponent';
 import Wrapper from '../state/Wrapper';
-import { Form, Item, Input, Button, Text } from 'native-base';
+import { Item, Input, Button, Text } from 'native-base';
 import { useNavigation } from 'react-navigation-hooks';
+import { DefaultTheme } from '../theme';
 
 const LoginScreen: WrappedComponent = ({ requests: { user } }) => {
     const { navigate } = useNavigation()
@@ -19,7 +20,7 @@ const LoginScreen: WrappedComponent = ({ requests: { user } }) => {
     };
 
     return (
-        <Form>
+        <>
             <Item>
               <Controller
                 as={<Input placeholder="Username" />}
@@ -40,10 +41,10 @@ const LoginScreen: WrappedComponent = ({ requests: { user } }) => {
               />
               {errors.password && <Text>This is required.</Text>}
             </Item>
-            <Button onPress={send}>
+            <Button style={DefaultTheme.backgroundColorPrimaryColor} onPress={send}>
                 <Text>Login</Text>
             </Button>
-          </Form>
+          </>
     );
 
 }

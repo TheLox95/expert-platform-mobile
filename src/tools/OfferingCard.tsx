@@ -3,28 +3,36 @@ import moment from 'moment';
 import { Card, CardItem, Left, Thumbnail, Text, Body, Button, Icon, Right } from "native-base";
 import { Image } from "react-native";
 import { Offering } from "src/models";
+import { DefaultTheme } from "../theme";
+import { NOT_FOUND_IMAGE } from '../image';
 
 const OfferingCard: React.FunctionComponent<{ offering: Offering }> = ({ offering }) => {
 
     return (
         <Card>
-            <CardItem>
+            <CardItem style={DefaultTheme.backgroundColorPrimaryColor}>
                 <Left>
-                    <Thumbnail source={{ uri: 'https://bitsofco.de/content/images/2018/12/broken-1.png' }} />
+                    {offering.photos.length > 0 ? 
+                        <Thumbnail source={{ uri: `http://localhost:1337${offering.photos[0].url}` }} />:
+                        <Thumbnail source={NOT_FOUND_IMAGE} />
+                    }
                     <Body>
-                        <Text>{offering.name}</Text>
-                        <Text note>by {offering.user.username}</Text>
+                        <Text style={DefaultTheme.onPrimaryColorText}>{offering.name}</Text>
+                        <Text style={DefaultTheme.onPrimaryColorText} note>by {offering.user.username}</Text>
                     </Body>
                 </Left>
             </CardItem>
             <CardItem cardBody={true}>
-                <Image style={{height: 100, flex: 1}} source={{ uri: 'https://bitsofco.de/content/images/2018/12/broken-1.png' }} />
+            {offering.photos.length > 0 ? 
+                <Image style={{height: 200, width: 200, flex: 1}} source={{ uri: `http://localhost:1337${offering.photos[0].url}` }} />:
+                <Image style={{height: 200, width: 200, flex: 1}} source={NOT_FOUND_IMAGE} />
+            }
             </CardItem>
             <CardItem>
                 <Body>
                     <Button transparent>
-                        <Icon active name="chatbubbles" />
-                        <Text>{offering.opinions.length} Comments</Text>
+                        <Icon style={DefaultTheme.textSecondaryColor} active name="chatbubbles" />
+                        <Text style={DefaultTheme.textSecondaryColor}>{offering.opinions.length} Comments</Text>
                     </Button>
                 </Body>
                 <Right>

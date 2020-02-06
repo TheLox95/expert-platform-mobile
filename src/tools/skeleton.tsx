@@ -4,6 +4,7 @@ import SearchBar from './SearchBar';
 import { useState } from 'react';
 import { useNavigation } from 'react-navigation-hooks';
 import Factory from '../factories/Factory';
+import { DefaultTheme, Colors } from '../theme';
 
 const Skeleton: React.FunctionComponent = ({ children }) => {
   const [isSearching, setIsSearching] = useState(false)
@@ -11,7 +12,7 @@ const Skeleton: React.FunctionComponent = ({ children }) => {
   return (
     <Container>
       {isSearching ? <SearchBar onEndEditing={() => setIsSearching(false)} /> : (
-        <Header>
+        <Header androidStatusBarColor={Colors.PRIMARY_DARK_COLOR}  style={[DefaultTheme.backgroundColorPrimaryColor]}>
           <Factory component={{ Header: { toggleDrawer, setIsSearching } }} />
         </Header>
       )}
