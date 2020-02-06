@@ -25,8 +25,6 @@ const ExpertProfile: WrappedComponent = ({ requests: { user } }) => {
 
     if (!userToShow) return null;
 
-    console.log('rr')
-
     return (
       <>
         <Content style={DefaultTheme.backgroundColorPrimaryDarkColor}>

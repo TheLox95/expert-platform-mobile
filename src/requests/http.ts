@@ -7,7 +7,7 @@ export type HttpInstance = <T>(config: AxiosRequestConfig) => Promise<T>
 const HttpConstructor = (dispatch: DispatchFunction, token: string | null): HttpInstance => {
     return <T>(config: AxiosRequestConfig & { disableLoad?: boolean }) => {
 
-        if (config.disableLoad === true) {
+        if (config.disableLoad !== true) {
             dispatch({ type: 'loading' })
         }
 
@@ -21,7 +21,7 @@ const HttpConstructor = (dispatch: DispatchFunction, token: string | null): Http
             }
         })
         .then(r =>{
-            if (config.disableLoad === true) {
+            if (config.disableLoad !== true) {
                 dispatch({ type: 'loaded' })
             }
             

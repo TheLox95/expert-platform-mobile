@@ -30,7 +30,7 @@ export default (token: string | null ) => {
       {
         contentComponent: SideMenu,
         initialRouteName: token ? 'Home' : 'Login',
-        backBehavior: 'history'
+        backBehavior: 'history',
       });
 
   return createAppContainer(AppNavigator)
