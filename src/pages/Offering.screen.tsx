@@ -33,8 +33,6 @@ const OfferingPage: WrappedComponent = ({ requests }) => {
 
   if (!offeringToShow) return null;
 
-  console.log(offeringToShow)
-
   return (
     <>
       <H2>{offeringToShow.name}</H2>

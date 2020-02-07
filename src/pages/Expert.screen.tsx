@@ -9,9 +9,9 @@ import Markdown from 'react-native-markdown-renderer';
 import { User } from 'src/models';
 import { MemoizedOfferingCard } from '../tools/OfferingCard';
 import { DefaultTheme, Colors } from '../theme';
+import { FlatList } from 'react-native-gesture-handler';
 
 const MarkdownStyles = StyleSheet.create({ text: { color: Colors.PRIMARY_TEXT_COLOR} })
-
 
 const ExpertProfile: WrappedComponent = ({ requests: { user } }) => {
     const { navigate } = useNavigation();
@@ -55,12 +55,20 @@ const ExpertProfile: WrappedComponent = ({ requests: { user } }) => {
         </List>
 
         <SafeAreaView style={{flex: 1}}>
-          <List style={{ minHeight: 400 }} horizontal={true} dataArray={userToShow.offerings} keyExtractor={(item) => item.id} renderRow={offering => (
-              <ListItem onPress={() => navigate('Offering', { id: offering.id })}>
-                  <MemoizedOfferingCard offering={offering} />
+          <FlatList
+            initialNumToRender={4}
+            maxToRenderPerBatch={4}
+            removeClippedSubviews={true}
+            style={{ minHeight: 400 }}
+            horizontal={true}
+            data={userToShow.offerings}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={offering => (
+              <ListItem onPress={() => navigate('Offering', { id: offering.item.id })}>
+                  <MemoizedOfferingCard offering={offering.item} />
               </ListItem>
           )}>
-          </List>
+          </FlatList>
         </SafeAreaView>
       </>
     );

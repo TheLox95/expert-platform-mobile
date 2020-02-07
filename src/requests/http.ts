@@ -28,7 +28,7 @@ const HttpConstructor = (dispatch: DispatchFunction, token: string | null): Http
             return r.data as T;
         })
         .catch((error) => {
-            if (config.disableLoad === true) {
+            if (config.disableLoad !== true) {
                 dispatch({ type: 'loaded' })
             }
 

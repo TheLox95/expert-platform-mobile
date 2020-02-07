@@ -2,9 +2,11 @@ import React from "react";
 import moment from 'moment';
 import { Card, CardItem, Left, Thumbnail, Text, Body, Button, Icon, Right } from "native-base";
 import { Image } from "react-native";
+import FastImage from 'react-native-fast-image';
 import { Offering } from "src/models";
 import { DefaultTheme } from "../theme";
 import { NOT_FOUND_IMAGE } from '../image';
+
 
 const OfferingCard: React.FunctionComponent<{ offering: Offering }> = ({ offering }) => {
 
@@ -21,12 +23,6 @@ const OfferingCard: React.FunctionComponent<{ offering: Offering }> = ({ offerin
                         <Text style={DefaultTheme.onPrimaryColorText} note>by {offering.user.username}</Text>
                     </Body>
                 </Left>
-            </CardItem>
-            <CardItem cardBody={true}>
-            {offering.photos.length > 0 ? 
-                <Image style={{height: 200, width: 200, flex: 1}} source={{ uri: `http://localhost:1337${offering.photos[0].url}` }} />:
-                <Image style={{height: 200, width: 200, flex: 1}} source={NOT_FOUND_IMAGE} />
-            }
             </CardItem>
             <CardItem>
                 <Body>
