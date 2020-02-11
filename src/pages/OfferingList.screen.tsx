@@ -33,4 +33,4 @@ const OfferingList: WrappedComponent = ({ requests, useGlobalState }) => {
   );
 }
 
-export default Wrapper(OfferingList);
+export default Wrapper(OfferingList, {noStyle: true});

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 import { H2, List, ListItem, Content, View, Button, Text } from "native-base";
-import { Image, StyleSheet, SafeAreaView } from "react-native"
-import { useNavigation, useNavigationParam } from 'react-navigation-hooks'
+import { Image, StyleSheet, SafeAreaView, BackHandler } from "react-native"
+import { useNavigation, useNavigationParam, useFocusEffect } from 'react-navigation-hooks'
 import Wrapper from "../state/Wrapper";
 import { WrappedComponent } from "../state/WrappedComponent";
 import Markdown from 'react-native-markdown-renderer';
@@ -17,12 +17,25 @@ const ExpertProfile: WrappedComponent = ({ requests: { user }, useGlobalState })
   const [currentUser] = useGlobalState('user');
   const { navigate } = useNavigation();
   const [userToShow, setUserToShow] = useState<User | null>();
-  const id = useNavigationParam('id');
+  let id = useNavigationParam('id');
 
-  useEffect(() => {
+  useFocusEffect(useCallback(() => {
+    if (!id) return;
+
     user.getUser(id)
       .then(u => setUserToShow(u))
-  }, []);
+
+    const subscription = BackHandler.addEventListener('hardwareBackPress', () => {
+      setUserToShow(null)
+      // useFocusEffect is called when component takes focus
+      // offeringId is part of the state react-navigation-hooks
+      // when we pass a new offeringId the useFocusEffect calls the function with the old offeringId value
+      // reads the new value and call it again
+      // we set offeringId to null to trigger update of the function with the new value
+      id = null
+    });
+    return () => subscription.remove();
+  }, [id]));
 
   if (!userToShow) return null;
 

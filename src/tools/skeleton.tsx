@@ -1,23 +1,33 @@
 import React from 'react';
-import { Container, Header, Content } from "native-base";
+import { Container, Header, Content, Spinner } from "native-base";
 import SearchBar from './SearchBar';
 import { useState } from 'react';
 import { useNavigation } from 'react-navigation-hooks';
 import Factory from '../factories/Factory';
 import { DefaultTheme, Colors } from '../theme';
+import { useGlobalState } from '../state/GlobalState';
 
-const Skeleton: React.FunctionComponent = ({ children }) => {
+const Skeleton: React.FunctionComponent<{ noStyle?: boolean }>  = ({ children, noStyle }) => {
   const [isSearching, setIsSearching] = useState(false)
+  const [ loading ] = useGlobalState('loading');
+
   const { toggleDrawer } = useNavigation();
+  const styles = noStyle === true ? {} : { marginHorizontal:10 }
+
   return (
     <>
       {isSearching ? <SearchBar onEndEditing={() => setIsSearching(false)} /> : (
-        <Header androidStatusBarColor={Colors.PRIMARY_DARK_COLOR}  style={[DefaultTheme.backgroundColorPrimaryColor]}>
+        <Header androidStatusBarColor={Colors.PRIMARY_DARK_COLOR} style={[DefaultTheme.backgroundColorPrimaryColor]}>
           <Factory component={{ Header: { toggleDrawer, setIsSearching } }} />
         </Header>
       )}
 
-      {children}
+      {loading === true ? <Spinner /> : null}
+      {/* TODO: we need to find a way to remove the component form the view layout without removing the component
+                from the react tree to not trigger the mount function */}
+      <Content style={{ opacity: loading === true ? 0 : 1, ...styles }}>
+        {children}
+      </Content>
     </>
   );
 }
