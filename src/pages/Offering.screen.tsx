@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
-import { H2, Button } from "native-base";
-import { Image, TouchableOpacity, Text } from "react-native"
-import { useNavigationParam, useNavigation, useFocusEffect, useNavigationState } from 'react-navigation-hooks'
+import { H2, Button, List, ListItem, Text, View } from "native-base";
+import { Image, TouchableOpacity, BackHandler } from "react-native"
+import { useNavigationParam, useNavigation, useFocusEffect } from 'react-navigation-hooks'
 import Wrapper from "../state/Wrapper";
 import { WrappedComponent } from "../state/WrappedComponent";
 import { Offering } from '../models';
 import Markdown from 'react-native-markdown-renderer';
+import { DefaultTheme } from '../theme';
 
 const OfferingPage: WrappedComponent = ({ requests }) => {
   const [offeringToShow, updateOfferingToShow] = useState<Offering | null>(null);
@@ -14,12 +15,14 @@ const OfferingPage: WrappedComponent = ({ requests }) => {
   const { navigate } = useNavigation();
   const { offering: offeringRequests } = requests;
 
+
   useFocusEffect(useCallback(() => {
     if (!offeringId) return;
 
     offeringRequests.getOffering(offeringId)
       .then(o => updateOfferingToShow(o));
-    return () => {
+
+    const subscription = BackHandler.addEventListener('hardwareBackPress', () => {
       updateOfferingToShow(null)
       // useFocusEffect is called when component takes focus
       // offeringId is part of the state react-navigation-hooks
@@ -27,7 +30,8 @@ const OfferingPage: WrappedComponent = ({ requests }) => {
       // reads the new value and call it again
       // we set offeringId to null to trigger update of the function with the new value
       offeringId = null
-    }
+    });
+    return () => subscription.remove();
   }, [offeringId]));
 
 
@@ -40,40 +44,46 @@ const OfferingPage: WrappedComponent = ({ requests }) => {
         {offeringToShow.description}
       </Markdown>
 
-      {offeringToShow.videos.map(v => {
-        return (
-          <TouchableOpacity
-            key={offeringToShow.id}
-            onPress={() => navigate('VideoPlayer', { video: v })}
-          >
-            <Image
-              style={{ width: 50, height: 50 }}
-              source={{ uri: `http://localhost:1337${v.thumbnail}` }}
-            />
-          </TouchableOpacity>
-        );
-      })}
-
-      {offeringToShow.photos.map(p => {
-        return (
+      <List horizontal={true} dataArray={offeringToShow.photos} keyExtractor={(item, index) => index.toString()} renderRow={v => (
+        <ListItem onPress={() => navigate('ImageGallery', { photos: offeringToShow.photos })}>
           <TouchableOpacity
             key={offeringToShow.id}
             onPress={() => navigate('ImageGallery', { photos: offeringToShow.photos })}
           >
             <Image
               style={{ width: 50, height: 50 }}
-              source={{ uri: `http://localhost:1337/${p.url}` }}
+              source={{ uri: `http://localhost:1337/${v.url}` }}
             />
           </TouchableOpacity>
-        );
-      })}
+        </ListItem>
+      )}>
+      </List>
 
-      <Button onPress={() => navigate('Expert', { id: offeringToShow.user.id })}>
-        <Text>See Expert</Text>
-      </Button>
-      <Button onPress={() => navigate('EditOffering', { id: offeringToShow.id })}>
-        <Text>Edit</Text>
-      </Button>
+      <List horizontal={true} dataArray={offeringToShow.videos} keyExtractor={(item, index) => index.toString()} renderRow={v => (
+        <ListItem onPress={() => navigate('ImageGallery', { photos: offeringToShow.photos })}>
+          <TouchableOpacity
+            key={offeringToShow.id}
+            onPress={() => navigate('ImageGallery', { photos: offeringToShow.photos })}
+          >
+            <Image
+              style={{ width: 50, height: 50 }}
+              source={{ uri: `http://localhost:1337/${v.thumbnail}` }}
+            />
+          </TouchableOpacity>
+        </ListItem>
+      )}>
+      </List>
+
+      <View style={{ marginBottom: 5 }}>
+        <Button style={DefaultTheme.backgroundColorPrimaryColor} rounded onPress={() => navigate('Expert', { id: offeringToShow.user.id })}>
+          <Text>See Expert</Text>
+        </Button>
+      </View>
+      <View style={{ marginTop: 5 }}>
+        <Button style={DefaultTheme.backgroundColorPrimaryColor} rounded onPress={() => navigate('EditOffering', { id: offeringToShow.id })}>
+          <Text>Edit</Text>
+        </Button>
+      </View>
     </>
   );
 }

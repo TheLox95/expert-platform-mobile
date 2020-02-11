@@ -10,6 +10,7 @@ import { Video, Photo, Offering } from 'src/models';
 import { Image, TouchableOpacity, BackHandler } from "react-native"
 import Modal from '../tools/Modal';
 import { useEffect } from 'react';
+import { DefaultTheme } from '../theme';
 
 const EditExpertScreen: WrappedComponent = ({ requests: { file: fileRequest, offering: offeringRequets } }) => {
     const { navigate } = useNavigation()
@@ -88,7 +89,7 @@ const EditExpertScreen: WrappedComponent = ({ requests: { file: fileRequest, off
 
 
             <Item>
-                <Button onPress={() => {
+                <Button rounded style={DefaultTheme.backgroundColorPrimaryColor} onPress={() => {
                     DocumentPicker.pick({
                         type: [DocumentPicker.types.images],
                     })
@@ -134,7 +135,7 @@ const EditExpertScreen: WrappedComponent = ({ requests: { file: fileRequest, off
 
 
             <Item>
-                <Button onPress={() => {
+                <Button rounded style={DefaultTheme.backgroundColorPrimaryColor} onPress={() => {
                     DocumentPicker.pick({
                         type: [DocumentPicker.types.video],
                     })
@@ -178,8 +179,8 @@ const EditExpertScreen: WrappedComponent = ({ requests: { file: fileRequest, off
             </Item>
 
 
-            <Button onPress={send}>
-                <Text>Create</Text>
+            <Button rounded style={DefaultTheme.backgroundColorPrimaryColor} onPress={send}>
+                <Text>Edit</Text>
             </Button>
         </Form>
     );

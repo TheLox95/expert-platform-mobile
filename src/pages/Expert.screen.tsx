@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import { H2, List, ListItem, Content } from "native-base";
+import { H2, List, ListItem, Content, View } from "native-base";
 import { Image, StyleSheet, SafeAreaView } from "react-native"
 import { useNavigation, useNavigationParam  } from 'react-navigation-hooks'
 import Wrapper from "../state/Wrapper";
@@ -27,12 +27,12 @@ const ExpertProfile: WrappedComponent = ({ requests: { user } }) => {
 
     return (
       <>
-        <Content style={DefaultTheme.backgroundColorPrimaryDarkColor}>
+        <View style={DefaultTheme.backgroundColorPrimaryDarkColor}>
           <H2 style={DefaultTheme.onPrimaryColorText}>{userToShow.username}</H2>
           <Markdown style={MarkdownStyles}>
             {userToShow.aboutme}
           </Markdown>
-        </Content>
+        </View>
 
         <List horizontal={true} dataArray={userToShow.videos} keyExtractor={(item, index) => index.toString()} renderRow={v => (
              <ListItem onPress={() => navigate('VideoPlayer', { video: v })}>
@@ -54,12 +54,8 @@ const ExpertProfile: WrappedComponent = ({ requests: { user } }) => {
          )}>
         </List>
 
-        <SafeAreaView style={{flex: 1}}>
+        <SafeAreaView>
           <FlatList
-            initialNumToRender={4}
-            maxToRenderPerBatch={4}
-            removeClippedSubviews={true}
-            style={{ minHeight: 400 }}
             horizontal={true}
             data={userToShow.offerings}
             keyExtractor={(item) => item.id.toString()}
@@ -74,4 +70,4 @@ const ExpertProfile: WrappedComponent = ({ requests: { user } }) => {
     );
 }
 
-export default Wrapper(ExpertProfile);
+export default Wrapper(ExpertProfile, { noStyle: true });
