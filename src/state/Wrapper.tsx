@@ -10,7 +10,7 @@ import FileRequest from '../requests/File.request';
 
 type WrapperOptions = { skeleton?: boolean, noStyle?: boolean }
 
-export default function Wrapper<P extends {}>(Component: WrappedComponent<P>, options: WrapperOptions): React.FunctionComponent<P> {
+export default function Wrapper<P extends {}>(Component: WrappedComponent<P>, options?: WrapperOptions): React.FunctionComponent<P> {
     return (props: React.PropsWithChildren<P>) => {
         const [ loading ] = useGlobalState('loading');
         const [ error ] = useGlobalState('error');
@@ -72,9 +72,9 @@ export default function Wrapper<P extends {}>(Component: WrappedComponent<P>, op
                 {loading === true ? <Spinner /> : null}
                 {/* TODO: we need to find a way to remove the component form the view layout without removing the component
                 from the react tree to not trigger the mount function */}
-                <View style={{ opacity: loading === true ? 0: 1, ...styles }}>
+                <Content style={{ opacity: loading === true ? 0: 1, ...styles }}>
                     <Component {...props} useGlobalState={useGlobalState} dispatch={dispatch} requests={requests} />
-                </View>
+                </Content>
             </Skeleton>            
         );        
     }

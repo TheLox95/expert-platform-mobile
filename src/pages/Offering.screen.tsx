@@ -9,7 +9,8 @@ import { Offering } from '../models';
 import Markdown from 'react-native-markdown-renderer';
 import { DefaultTheme } from '../theme';
 
-const OfferingPage: WrappedComponent = ({ requests }) => {
+const OfferingPage: WrappedComponent = ({ requests, useGlobalState }) => {
+  const [ user ] = useGlobalState('user');
   const [offeringToShow, updateOfferingToShow] = useState<Offering | null>(null);
   let offeringId = useNavigationParam('id');
   const { navigate } = useNavigation();
@@ -79,11 +80,13 @@ const OfferingPage: WrappedComponent = ({ requests }) => {
           <Text>See Expert</Text>
         </Button>
       </View>
-      <View style={{ marginTop: 5 }}>
+      {offeringToShow.user.id === user?.id ? (
+        <View style={{ marginTop: 5 }}>
         <Button style={DefaultTheme.backgroundColorPrimaryColor} rounded onPress={() => navigate('EditOffering', { id: offeringToShow.id })}>
           <Text>Edit</Text>
         </Button>
       </View>
+      ): null}
     </>
   );
 }
