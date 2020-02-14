@@ -61,7 +61,10 @@ export default function Wrapper<P extends {}>(Component: WrappedComponent<P>, op
 
         if (options && options.skeleton === false) {
             return (
-                <Component {...props} useGlobalState={useGlobalState} dispatch={dispatch} requests={requests} />    
+                <Content contentContainerStyle={{ flex: 1 }}>
+                    <Component {...props} useGlobalState={useGlobalState} dispatch={dispatch} requests={requests} />    
+                </Content>
+
             );
         }
 
@@ -70,7 +73,7 @@ export default function Wrapper<P extends {}>(Component: WrappedComponent<P>, op
                 {loading === true ? <Spinner /> : null}
                 {/* TODO: we need to find a way to remove the component form the view layout without removing the component
                 from the react tree to not trigger the mount function */}
-                <Content style={{ opacity: loading === true ? 0: 1 }}>
+                <Content style={{ opacity: loading === true ? 0: 1 }} contentContainerStyle={{ flex: 1 }}>
                     <Component {...props} useGlobalState={useGlobalState} dispatch={dispatch} requests={requests} />
                 </Content>
             </Skeleton>            

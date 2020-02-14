@@ -16,5 +16,8 @@ export default StyleSheet.create({
     },
     textSecondaryColor: {
         color: colors.SECONDARY_COLOR   
+    },
+    secondaryColor: {
+        color: colors.SECONDARY_COLOR
     }
 });

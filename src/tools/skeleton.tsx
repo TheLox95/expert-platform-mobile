@@ -17,9 +17,7 @@ const Skeleton: React.FunctionComponent = ({ children }) => {
         </Header>
       )}
 
-      <Content>
         {children}
-      </Content>
     </Container>
   );
 }

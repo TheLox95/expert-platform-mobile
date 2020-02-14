@@ -16,7 +16,7 @@ export const HeaderComponent: React.FunctionComponent<HeaderProps> = ({ toggleDr
                 </Button>
             </Left>
             <Right>
-                <Button style={DefaultTheme.backgroundColorPrimaryColor} transparent onPress={() => setIsSearching(true)}>
+                <Button testID="search-button" style={DefaultTheme.backgroundColorPrimaryColor} transparent onPress={() => setIsSearching(true)}>
                     <Icon name='search' />
                 </Button>
             </Right>
