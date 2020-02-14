@@ -75,7 +75,7 @@
             "cd android && ./gradlew assembleDebug assembleAndroidTest --warning-mode=all -DtestBuildType=debug && cd ..",
         "type": "android.emulator",
         "device": {
-          "avdName": "Pixel_2_API_18"
+          "avdName": "Pixel_2_API_23"
         }
       }
     }

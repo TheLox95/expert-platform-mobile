@@ -19,7 +19,7 @@ const OfferingList: WrappedComponent = ({ requests, useGlobalState }) => {
   }, []);
 
   return (
-    <List>
+    <List testID="offering-list">
       {offerings.map(o => {
         return (
           <ListItem key={o.id} onPress={() => {
