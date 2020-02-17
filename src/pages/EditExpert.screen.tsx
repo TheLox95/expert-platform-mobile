@@ -14,117 +14,119 @@ import { DefaultTheme } from '../theme';
 
 type UserFromData = { username: string, aboutme: string, photos: Photo[], videos: Video[] };
 
-const EditExpertScreen: WrappedComponent = ({ useGlobalState ,requests: { file: fileRequest, user: userRequest } }) => {
-    const { navigate } = useNavigation()
-    const [ user ] = useGlobalState( 'user')
-    const [ wasSend, setWasSend ] = useState(false)
-    const { control, handleSubmit, errors } = useForm<UserFromData>({
-        defaultValues: {
-            username: user?.username,
-            aboutme: user?.aboutme,
-        }
+const EditExpertScreen: WrappedComponent = ({ useGlobalState, requests: { file: fileRequest, user: userRequest } }) => {
+  const { navigate } = useNavigation()
+  const [user] = useGlobalState('user')
+  const [wasSend, setWasSend] = useState(false)
+  const { control, handleSubmit, errors } = useForm<UserFromData>({
+    defaultValues: {
+      username: user?.username,
+      aboutme: user?.aboutme,
+    }
+  });
+
+  const [deleteVideo, uploadedVideos, setVideo, msgVideo, resetVideo] = useFileUpload<Video>('pick video', fileRequest)
+  const [deleteImage, uploadedImages, setImage, msgImage, resetImage] = useFileUpload<Photo>('pick image', fileRequest)
+
+  useEffect(() => {
+    userRequest.refresh()
+  }, []);
+
+  useFocusEffect(useCallback(() => {
+    const subscription = BackHandler.addEventListener('hardwareBackPress', () => {
+      resetVideo({ deleteUploaded: !wasSend })
+      resetImage({ deleteUploaded: !wasSend })
     });
+    return () => subscription.remove();
+  }, [uploadedVideos.length, uploadedImages.length]));
 
-    const [ deleteVideo, uploadedVideos ,setVideo, msgVideo, resetVideo ] = useFileUpload<Video>('pick video', fileRequest)
-    const [ deleteImage, uploadedImages, setImage, msgImage, resetImage ] = useFileUpload<Photo>('pick image', fileRequest)
+  const send = handleSubmit((data) => {
+    if (!user) return
 
-    useEffect(() => {
-        userRequest.refresh()
-    }, []);
-
-    useFocusEffect(useCallback(() => {
-        const subscription = BackHandler.addEventListener('hardwareBackPress', () => {
-            resetVideo({ deleteUploaded: !wasSend })
-            resetImage({ deleteUploaded: !wasSend }) 
-        });
-        return () => subscription.remove();
-    }, [uploadedVideos.length, uploadedImages.length]));
-
-    const send  = handleSubmit((data) => {
-      if (!user) return 
-
-      userRequest.update({
-        ...user,
-        username: data.username,
-        aboutme: data.aboutme,
-        videos: user.videos.concat(...uploadedVideos),
-        photos: user.photos.concat(...uploadedImages)
-      })
-      .then((r) => userRequest.refresh().then(() => r))
-      .then((r) => {setWasSend(true); return r})
-      .then((r) => navigate('Expert', { id: r.id }))
+    userRequest.update({
+      ...user,
+      username: data.username,
+      aboutme: data.aboutme,
+      videos: user.videos.concat(...uploadedVideos),
+      photos: user.photos.concat(...uploadedImages)
     })
-    const onChange: EventFunction = (t) => {
-      return {
-        value: t[0].nativeEvent.text,
-      };
+      .then((r) => userRequest.refresh().then(() => r))
+      .then((r) => { setWasSend(true); return r })
+      .then((r) => navigate('Expert', { id: r.id }))
+  })
+  const onChange: EventFunction = (t) => {
+    return {
+      value: t[0].nativeEvent.text,
     };
+  };
 
-    if (!user) return null;
+  if (!user) return null;
 
-    return (
-        <Form>
-            <Item>
-              <Controller
-                as={<Input placeholder="Username" />}
-                control={control}
-                name="username"
-                onChange={onChange}
-                rules={{ required: true }}
-              />
-              {errors.username && <Text>This is required.</Text>}
-            </Item>
-            <Item>
-            <Controller
-                as={<Input placeholder="About me" />}
-                control={control}
-                name="aboutme"
-                onChange={onChange}
-                rules={{ required: true }}
-              />
-              {errors.aboutme && <Text>This is required.</Text>}
-            </Item>
+  return (
+    <Form testID="edit-expert-form">
+      <Item>
+        <Controller
+          testID="edit-expert-username"
+          as={<Input placeholder="Username" />}
+          control={control}
+          name="username"
+          onChange={onChange}
+          rules={{ required: true }}
+        />
+        {errors.username && <Text testID="edit-expert-username-error">This is required.</Text>}
+      </Item>
+      <Item>
+        <Controller
+          testID="edit-expert-aboutme"
+          as={<Input placeholder="About me" />}
+          control={control}
+          name="aboutme"
+          onChange={onChange}
+          rules={{ required: true }}
+        />
+        {errors.aboutme && <Text testID="edit-expert-aboutme-error">This is required.</Text>}
+      </Item>
 
 
-            <Item>
-                <Button rounded style={DefaultTheme.backgroundColorPrimaryColor} onPress={() => {
-                    DocumentPicker.pick({type: [DocumentPicker.types.images]})
-                    .then(file => {
-                        setImage(file)
-                    })
-                }}>
-                  <Text>{msgImage}</Text>
-                </Button>
-            </Item>
+      <Item>
+        <Button rounded style={DefaultTheme.backgroundColorPrimaryColor} onPress={() => {
+          DocumentPicker.pick({ type: [DocumentPicker.types.images] })
+            .then(file => {
+              setImage(file)
+            })
+        }}>
+          <Text>{msgImage}</Text>
+        </Button>
+      </Item>
 
-            <FileEditableList files={user.photos.concat(...uploadedImages).map(f => ({ ...f, src: f.url}))} deleteFunc={(image) => {
-                const selectedImage = uploadedImages.concat(user.photos).find(i => i.id === image.id)
-                return deleteImage(selectedImage || null)
-                .then(() => userRequest.refresh())
-            }}/>
+      <FileEditableList files={user.photos.concat(...uploadedImages).map(f => ({ ...f, src: f.url }))} deleteFunc={(image) => {
+        const selectedImage = uploadedImages.concat(user.photos).find(i => i.id === image.id)
+        return deleteImage(selectedImage || null)
+          .then(() => userRequest.refresh())
+      }} />
 
-            <Item>
-                <Button rounded style={DefaultTheme.backgroundColorPrimaryColor} onPress={() => {
-                    DocumentPicker.pick({type: [DocumentPicker.types.video]})
-                    .then(file => {
-                        setVideo(file)
-                    })
-                }}>
-                  <Text>{msgVideo}</Text>
-                </Button>
-            </Item>   
+      <Item>
+        <Button rounded style={DefaultTheme.backgroundColorPrimaryColor} onPress={() => {
+          DocumentPicker.pick({ type: [DocumentPicker.types.video] })
+            .then(file => {
+              setVideo(file)
+            })
+        }}>
+          <Text>{msgVideo}</Text>
+        </Button>
+      </Item>
 
-            <FileEditableList files={user.videos.concat(...uploadedVideos).map(f => ({ ...f, src: f.thumbnail}))} deleteFunc={(video) => {
-                const selectedVideo = uploadedVideos.concat(user.videos).find(i => i.id === video.id)
-                return deleteVideo(selectedVideo || null)
-                .then(() => userRequest.refresh())
-            }}/>
+      <FileEditableList files={user.videos.concat(...uploadedVideos).map(f => ({ ...f, src: f.thumbnail }))} deleteFunc={(video) => {
+        const selectedVideo = uploadedVideos.concat(user.videos).find(i => i.id === video.id)
+        return deleteVideo(selectedVideo || null)
+          .then(() => userRequest.refresh())
+      }} />
 
-            <Button rounded style={DefaultTheme.backgroundColorPrimaryColor} onPress={send}>
-                <Text>Edit</Text>
-            </Button>
-          </Form>
-    );
+      <Button testID="edit-expert-button" rounded style={DefaultTheme.backgroundColorPrimaryColor} onPress={send}>
+        <Text>Edit</Text>
+      </Button>
+    </Form>
+  );
 
 }
 

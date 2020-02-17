@@ -31,8 +31,9 @@ const OfferingPage: WrappedComponent = ({ requests, useGlobalState }) => {
       // reads the new value and call it again
       // we set offeringId to null to trigger update of the function with the new value
       offeringId = null
+      navigate('Home');
     });
-    return () => { subscription.remove(); navigate('Home') }
+    return () => { subscription.remove() }
   }, [offeringId]));
 
 
@@ -76,7 +77,7 @@ const OfferingPage: WrappedComponent = ({ requests, useGlobalState }) => {
       </List>
 
       <View style={{ marginBottom: 5 }}>
-        <Button style={DefaultTheme.backgroundColorPrimaryColor} rounded onPress={() => navigate('Expert', { id: offeringToShow.user.id })}>
+        <Button testID="offering-seeexpert-button" style={DefaultTheme.backgroundColorPrimaryColor} rounded onPress={() => navigate('Expert', { id: offeringToShow.user.id })}>
           <Text>See Expert</Text>
         </Button>
       </View>
