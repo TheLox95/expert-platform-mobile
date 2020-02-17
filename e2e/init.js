@@ -1,4 +1,5 @@
 const detox = require('detox');
+const axios = require('axios');
 const config = require('../package.json').detox;
 const adapter = require('detox/runners/jest/adapter');
 const specReporter = require('detox/runners/jest/specReporter');
@@ -13,6 +14,7 @@ jasmine.getEnv().addReporter(adapter);
 jasmine.getEnv().addReporter(specReporter);
 
 beforeAll(async () => {
+  await axios('http://localhost:1337/test')
   await detox.init(config);
 }, 300000);
 

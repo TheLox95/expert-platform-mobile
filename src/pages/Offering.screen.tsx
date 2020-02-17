@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 
 import { H2, Button } from "native-base";
 import { Image, TouchableOpacity, Text } from "react-native"
-import { useNavigationParam, useNavigation, useFocusEffect, useNavigationState } from 'react-navigation-hooks'
+import { useNavigationParam, useNavigation, useFocusEffect } from 'react-navigation-hooks'
 import Wrapper from "../state/Wrapper";
 import { WrappedComponent } from "../state/WrappedComponent";
 import { Offering } from '../models';
@@ -27,6 +27,7 @@ const OfferingPage: WrappedComponent = ({ requests }) => {
       // reads the new value and call it again
       // we set offeringId to null to trigger update of the function with the new value
       offeringId = null
+      navigate('Home')
     }
   }, [offeringId]));
 
@@ -35,7 +36,7 @@ const OfferingPage: WrappedComponent = ({ requests }) => {
 
   return (
     <>
-      <H2>{offeringToShow.name}</H2>
+      <H2 testID="offering-name">{offeringToShow.name}</H2>
       <Markdown>
         {offeringToShow.description}
       </Markdown>

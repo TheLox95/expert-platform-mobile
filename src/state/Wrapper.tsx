@@ -44,7 +44,7 @@ export default function Wrapper<P extends {}>(Component: WrappedComponent<P>, op
                 duration: 5000,
                 text: info,
                 style: { backgroundColor: '#607d8b'},
-                textStyle: { color: '#000000'},
+                textStyle: { color: '#FFFFFF'},
                 onClose: () => {dispatch({ type: 'info', payload: null })}
             })
         }

@@ -19,5 +19,14 @@ export default StyleSheet.create({
     },
     secondaryColor: {
         color: colors.SECONDARY_COLOR
+    },
+    backgroundSecondaryColor: {
+        backgroundColor: colors.SECONDARY_COLOR
+    },
+    backgroundSecondaryLightColor: {
+        backgroundColor: colors.SECONDARY_LIGHT_COLOR
+    },
+    backgroundSecondaryDarkColor: {
+        backgroundColor: colors.SECONDARY_DARK_COLOR
     }
 });
