@@ -4,10 +4,6 @@ import { useNavigation } from "react-navigation-hooks";
 import { SafeAreaView, FlatList } from "react-navigation";
 import { ListItem, Text } from "native-base";
 
-export const HeaderComponent: React.FunctionComponent = () => {
-    return null
-}
-
 export const SideMenu: React.FunctionComponent = () => {
     const { navigate } = useNavigation();
 

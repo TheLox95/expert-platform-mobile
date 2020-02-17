@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 
 import { H2, Button, List, ListItem, Text, View } from "native-base";
 import { Image, TouchableOpacity, BackHandler } from "react-native"
@@ -10,7 +10,7 @@ import Markdown from 'react-native-markdown-renderer';
 import { DefaultTheme } from '../theme';
 
 const OfferingPage: WrappedComponent = ({ requests, useGlobalState }) => {
-  const [ user ] = useGlobalState('user');
+  const [user] = useGlobalState('user');
   const [offeringToShow, updateOfferingToShow] = useState<Offering | null>(null);
   let offeringId = useNavigationParam('id');
   const { navigate } = useNavigation();
@@ -32,7 +32,7 @@ const OfferingPage: WrappedComponent = ({ requests, useGlobalState }) => {
       // we set offeringId to null to trigger update of the function with the new value
       offeringId = null
     });
-    return () => subscription.remove();
+    return () => { subscription.remove(); navigate('Home') }
   }, [offeringId]));
 
 
@@ -40,7 +40,7 @@ const OfferingPage: WrappedComponent = ({ requests, useGlobalState }) => {
 
   return (
     <>
-      <H2>{offeringToShow.name}</H2>
+      <H2 testID="offering-name">{offeringToShow.name}</H2>
       <Markdown>
         {offeringToShow.description}
       </Markdown>
@@ -82,11 +82,11 @@ const OfferingPage: WrappedComponent = ({ requests, useGlobalState }) => {
       </View>
       {offeringToShow.user.id === user?.id ? (
         <View style={{ marginTop: 5 }}>
-        <Button style={DefaultTheme.backgroundColorPrimaryColor} rounded onPress={() => navigate('EditOffering', { id: offeringToShow.id })}>
-          <Text>Edit</Text>
-        </Button>
-      </View>
-      ): null}
+          <Button style={DefaultTheme.backgroundColorPrimaryColor} rounded onPress={() => navigate('EditOffering', { id: offeringToShow.id })}>
+            <Text>Edit</Text>
+          </Button>
+        </View>
+      ) : null}
     </>
   );
 }

@@ -23,7 +23,7 @@ const LoginScreen: WrappedComponent = ({ requests: { user } }) => {
         <>
             <Item>
               <Controller
-                as={<Input placeholder="Username" />}
+                as={<Input testID="login-username-input" placeholder="Username" />}
                 control={control}
                 name="username"
                 onChange={onChange}
@@ -33,7 +33,7 @@ const LoginScreen: WrappedComponent = ({ requests: { user } }) => {
             </Item>
             <Item>
             <Controller
-                as={<Input placeholder="Password" />}
+                as={<Input testID="login-password-input" placeholder="Password" />}
                 control={control}
                 name="password"
                 onChange={onChange}
@@ -41,7 +41,7 @@ const LoginScreen: WrappedComponent = ({ requests: { user } }) => {
               />
               {errors.password && <Text>This is required.</Text>}
             </Item>
-            <Button style={DefaultTheme.backgroundColorPrimaryColor} onPress={send}>
+            <Button testID="login-send-button" style={DefaultTheme.backgroundColorPrimaryColor} onPress={send}>
                 <Text>Login</Text>
             </Button>
           </>

@@ -43,7 +43,7 @@ export default function Wrapper<P extends {}>(Component: WrappedComponent<P>, op
                 duration: 5000,
                 text: info,
                 style: { backgroundColor: '#607d8b'},
-                textStyle: { color: '#000000'},
+                textStyle: { color: '#FFFFFF'},
                 onClose: () => {dispatch({ type: 'info', payload: null })}
             })
         }
@@ -60,7 +60,10 @@ export default function Wrapper<P extends {}>(Component: WrappedComponent<P>, op
 
         if (options && options.skeleton === false) {
             return (
-                <Component {...props} useGlobalState={useGlobalState} dispatch={dispatch} requests={requests} />    
+                <Content contentContainerStyle={{ flex: 1 }}>
+                    <Component {...props} useGlobalState={useGlobalState} dispatch={dispatch} requests={requests} />    
+                </Content>
+
             );
         }
 

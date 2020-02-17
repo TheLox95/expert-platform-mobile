@@ -1,0 +1,227 @@
+Warning: QStandardPaths: XDG_RUNTIME_DIR not set, defaulting to '/tmp/runtime-root' ((null):0, (null))
+Warning: QXcbIntegration: Cannot create platform OpenGL context, neither GLX nor EGL are enabled ((null):0, (null))
+emulator: autoconfig: -skin pixel_2
+emulator: autoconfig: -skindir /home/leo/Android/Sdk/skins/
+emulator: autoconfig: -kernel /home/leo/Android/Sdk//system-images/android-16/google_apis/x86//kernel-ranchu
+emulator: Target arch = 'x86'
+emulator: Auto-config: -qemu -cpu qemu32
+emulator: Auto-detect: Kernel image requires new device naming scheme.
+emulator: Auto-detect: Kernel does support YAFFS2 partitions.
+emulator: autoconfig: -ramdisk /home/leo/Android/Sdk//system-images/android-16/google_apis/x86//ramdisk.img
+emulator: Using initial system image: /home/leo/Android/Sdk//system-images/android-16/google_apis/x86//system.img
+emulator: No vendor image
+emulator: autoconfig: -data /home/leo/.android/avd/Pixel_2_API_16.avd/userdata-qemu.img
+emulator: autoconfig: -initdata /home/leo/.android/avd/Pixel_2_API_16.avd/userdata.img
+emulator: autoconfig: -cache /home/leo/.android/avd/Pixel_2_API_16.avd/cache.img
+emulator: autoconfig: -sdcard /home/leo/.android/avd/Pixel_2_API_16.avd/sdcard.img
+emulator: Physical RAM size: 1536MB
+
+emulator: VM heap size 256MB is below hardware specified minimum of 384MB,setting it to that value
+emulator: System image is read only
+emulator: Found 1 DNS servers: 127.0.0.53
+emulator: trying to load skin file '/home/leo/Android/Sdk/skins//pixel_2/layout'
+emulator: registered 'boot-properties' qemud service
+emulator: Adding boot property: 'qemu.cmdline' = 'androidboot.logcat=v:* androidboot.consolepipe=qemu_pipe,pipe:logcat'
+emulator: Adding boot property: 'qemu.logcat' = 'start'
+emulator: Requested console port 12868: Inferring adb port 12869.
+emulator: WARNING: encryption is off
+emulator: CPU Acceleration: working
+emulator: CPU Acceleration status: KVM (version 12) is installed and usable.
+emulator: INFO: QtLogger.cpp:66: Warning: QStandardPaths: XDG_RUNTIME_DIR not set, defaulting to '/tmp/runtime-root' ((null):0, (null))
+
+
+emulator: INFO: QtLogger.cpp:66: Warning: QXcbIntegration: Cannot create platform OpenGL context, neither GLX nor EGL are enabled ((null):0, (null))
+
+
+emulator: VERBOSE: AdbInterface.cpp:232: Found: 3 adb executables
+emulator: VERBOSE: AdbInterface.cpp:234: Adb: /home/leo/Android/Sdk/platform-tools/adb
+emulator: VERBOSE: AdbInterface.cpp:234: Adb: /home/leo/Android/Sdk/platform-tools/adb
+emulator: VERBOSE: AdbInterface.cpp:234: Adb: /usr/bin/adb
+emulator: VERBOSE: AdbInterface.cpp:253: Path:/home/leo/Android/Sdk/platform-tools/adb protocol version: 41
+emulator: VERBOSE: AdbInterface.cpp:253: Path:/home/leo/Android/Sdk/platform-tools/adb protocol version: 41
+emulator: VERBOSE: AdbInterface.cpp:253: Path:/usr/bin/adb protocol version: 41
+emulator: GPU emulation enabled using 'host' mode
+emulator: Initializing hardware OpenGLES emulation support
+emulator: VERBOSE: emulator-qt-window.cpp:2824: setUIMultiDisplay id 0 0 0 1080 1920 add
+emulator: VERBOSE: load_config.cpp:242: Verified boot params were not found.
+emulator: Found 1 DNS servers: 127.0.0.53
+Content of hardware configuration file:
+  hw.cpu.arch = x86
+  hw.cpu.model = qemu32
+  hw.cpu.ncore = 2
+  hw.ramSize = 1536
+  hw.screen = multi-touch
+  hw.mainKeys = false
+  hw.trackBall = false
+  hw.keyboard = true
+  hw.keyboard.lid = false
+  hw.keyboard.charmap = qwerty2
+  hw.dPad = false
+  hw.rotaryInput = false
+  hw.gsmModem = true
+  hw.gps = true
+  hw.battery = true
+  hw.accelerometer = true
+  hw.gyroscope = true
+  hw.audioInput = true
+  hw.audioOutput = true
+  hw.sdCard = true
+  hw.sdCard.path = /home/leo/.android/avd/Pixel_2_API_16.avd/sdcard.img
+  disk.cachePartition = true
+  disk.cachePartition.path = /home/leo/.android/avd/Pixel_2_API_16.avd/cache.img
+  disk.cachePartition.size = 66m
+  test.quitAfterBootTimeOut = -1
+  test.delayAdbTillBootComplete = 0
+  test.monitorAdb = 0
+  hw.lcd.width = 1080
+  hw.lcd.height = 1920
+  hw.lcd.depth = 16
+  hw.lcd.density = 420
+  hw.lcd.backlight = true
+  hw.displayRegion.0.1.xOffset = -1
+  hw.displayRegion.0.1.yOffset = -1
+  hw.displayRegion.0.1.width = 0
+  hw.displayRegion.0.1.height = 0
+  hw.fold.adjust = false
+  hw.display1.width = 0
+  hw.display1.height = 0
+  hw.display1.density = 0
+  hw.display1.xOffset = -1
+  hw.display1.yOffset = -1
+  hw.display1.flag = 0
+  hw.display2.width = 0
+  hw.display2.height = 0
+  hw.display2.density = 0
+  hw.display2.xOffset = -1
+  hw.display2.yOffset = -1
+  hw.display2.flag = 0
+  hw.display3.width = 0
+  hw.display3.height = 0
+  hw.display3.density = 0
+  hw.display3.xOffset = -1
+  hw.display3.yOffset = -1
+  hw.display3.flag = 0
+  hw.gpu.enabled = true
+  hw.gpu.mode = host
+  hw.initialOrientation = Portrait
+  hw.camera.back = virtualscene
+  hw.camera.front = emulated
+  vm.heapSize = 384
+  hw.sensors.light = true
+  hw.sensors.pressure = true
+  hw.sensors.humidity = true
+  hw.sensors.proximity = true
+  hw.sensors.magnetic_field = true
+  hw.sensors.magnetic_field_uncalibrated = true
+  hw.sensors.gyroscope_uncalibrated = true
+  hw.sensors.orientation = true
+  hw.sensors.temperature = true
+  hw.useext4 = true
+  hw.arc = false
+  hw.arc.autologin = false
+  kernel.path = /home/leo/Android/Sdk//system-images/android-16/google_apis/x86//kernel-ranchu
+  kernel.newDeviceNaming = yes
+  kernel.supportsYaffs2 = yes
+  disk.ramdisk.path = /home/leo/Android/Sdk//system-images/android-16/google_apis/x86//ramdisk.img
+  disk.systemPartition.initPath = /home/leo/Android/Sdk//system-images/android-16/google_apis/x86//system.img
+  disk.systemPartition.size = 800m
+  disk.vendorPartition.size = 0
+  disk.dataPartition.path = /home/leo/.android/avd/Pixel_2_API_16.avd/userdata-qemu.img
+  disk.dataPartition.size = 800m
+  PlayStore.enabled = false
+  avd.name = Pixel_2_API_16
+  avd.id = Pixel_2_API_16
+  fastboot.forceColdBoot = false
+.
+QEMU options list:
+emulator: argv[00] = "/home/leo/Android/Sdk/emulator/qemu/linux-x86_64/qemu-system-i386"
+emulator: argv[01] = "-dns-server"
+emulator: argv[02] = "127.0.0.53"
+emulator: argv[03] = "-no-audio"
+emulator: argv[04] = "-serial"
+emulator: argv[05] = "null"
+emulator: argv[06] = "-android-ports"
+emulator: argv[07] = "12868,12869"
+emulator: argv[08] = "-device"
+emulator: argv[09] = "goldfish_pstore,addr=0xff018000,size=0x10000,file=/home/leo/.android/avd/Pixel_2_API_16.avd/data/misc/pstore/pstore.bin"
+emulator: argv[10] = "-cpu"
+emulator: argv[11] = "android32"
+emulator: argv[12] = "-enable-kvm"
+emulator: argv[13] = "-smp"
+emulator: argv[14] = "cores=2"
+emulator: argv[15] = "-m"
+emulator: argv[16] = "1536"
+emulator: argv[17] = "-lcd-density"
+emulator: argv[18] = "420"
+emulator: argv[19] = "-object"
+emulator: argv[20] = "iothread,id=disk-iothread"
+emulator: argv[21] = "-nodefaults"
+emulator: argv[22] = "-kernel"
+emulator: argv[23] = "/home/leo/Android/Sdk//system-images/android-16/google_apis/x86//kernel-ranchu"
+emulator: argv[24] = "-initrd"
+emulator: argv[25] = "/home/leo/Android/Sdk//system-images/android-16/google_apis/x86//ramdisk.img"
+emulator: argv[26] = "-drive"
+emulator: argv[27] = "if=none,index=0,id=system,file=/home/leo/Android/Sdk//system-images/android-16/google_apis/x86//system.img,read-only"
+emulator: argv[28] = "-device"
+emulator: argv[29] = "virtio-blk-pci,drive=system,iothread=disk-iothread,modern-pio-notify"
+emulator: argv[30] = "-drive"
+emulator: argv[31] = "if=none,index=1,id=cache,file=/home/leo/.android/avd/Pixel_2_API_16.avd/cache.img.qcow2,overlap-check=none,cache=unsafe,l2-cache-size=1048576"
+emulator: argv[32] = "-device"
+emulator: argv[33] = "virtio-blk-pci,drive=cache,iothread=disk-iothread,modern-pio-notify"
+emulator: argv[34] = "-drive"
+emulator: argv[35] = "if=none,index=2,id=userdata,file=/home/leo/.android/avd/Pixel_2_API_16.avd/userdata-qemu.img.qcow2,overlap-check=none,cache=unsafe,l2-cache-size=1048576"
+emulator: argv[36] = "-device"
+emulator: argv[37] = "virtio-blk-pci,drive=userdata,iothread=disk-iothread,modern-pio-notify"
+emulator: argv[38] = "-drive"
+emulator: argv[39] = "if=none,index=3,id=sdcard,file=/home/leo/.android/avd/Pixel_2_API_16.avd/sdcard.img.qcow2,overlap-check=none,cache=unsafe,l2-cache-size=1048576"
+emulator: argv[40] = "-device"
+emulator: argv[41] = "virtio-blk-pci,drive=sdcard,iothread=disk-iothread,modern-pio-notify"
+emulator: argv[42] = "-netdev"
+emulator: argv[43] = "user,id=mynet"
+emulator: argv[44] = "-device"
+emulator: argv[45] = "virtio-net-pci,netdev=mynet"
+emulator: argv[46] = "-device"
+emulator: argv[47] = "virtio-rng-pci"
+emulator: argv[48] = "-show-cursor"
+emulator: argv[49] = "-L"
+emulator: argv[50] = "/home/leo/Android/Sdk/emulator/lib/pc-bios"
+emulator: argv[51] = "-soundhw"
+emulator: argv[52] = "hda"
+emulator: argv[53] = "-vga"
+emulator: argv[54] = "none"
+emulator: argv[55] = "-append"
+emulator: argv[56] = "qemu=1 no_timer_check androidboot.hardware=ranchu androidboot.serialno=EMULATOR29X2X1X0 clocksource=pit no-kvmclock android.qemud=1 console=0 android.checkjni=1 android.bootanim=0 qemu.gles=1 qemu.settings.system.screen_off_timeout=2147483647 qemu.opengles.version=131072 cma=32M@0-4G androidboot.android_dt_dir=/sys/bus/platform/devices/ANDR0001:00/properties/android/ loop.max_part=7 ramoops.mem_address=0xff018000 ramoops.mem_size=0x10000 memmap=0x10000$0xff018000 qemu.dalvik.vm.heapsize=384m"
+emulator: argv[57] = "-android-hw"
+emulator: argv[58] = "/home/leo/.android/avd/Pixel_2_API_16.avd/hardware-qemu.ini"
+Concatenated QEMU options:
+ /home/leo/Android/Sdk/emulator/qemu/linux-x86_64/qemu-system-i386 -dns-server 127.0.0.53 -no-audio -serial null -android-ports 12868,12869 -device goldfish_pstore,addr=0xff018000,size=0x10000,file=/home/leo/.android/avd/Pixel_2_API_16.avd/data/misc/pstore/pstore.bin -cpu android32 -enable-kvm -smp cores=2 -m 1536 -lcd-density 420 -object iothread,id=disk-iothread -nodefaults -kernel /home/leo/Android/Sdk//system-images/android-16/google_apis/x86//kernel-ranchu -initrd /home/leo/Android/Sdk//system-images/android-16/google_apis/x86//ramdisk.img -drive if=none,index=0,id=system,file=/home/leo/Android/Sdk//system-images/android-16/google_apis/x86//system.img,read-only -device virtio-blk-pci,drive=system,iothread=disk-iothread,modern-pio-notify -drive if=none,index=1,id=cache,file=/home/leo/.android/avd/Pixel_2_API_16.avd/cache.img.qcow2,overlap-check=none,cache=unsafe,l2-cache-size=1048576 -device virtio-blk-pci,drive=cache,iothread=disk-iothread,modern-pio-notify -drive if=none,index=2,id=userdata,file=/home/leo/.android/avd/Pixel_2_API_16.avd/userdata-qemu.img.qcow2,overlap-check=none,cache=unsafe,l2-cache-size=1048576 -device virtio-blk-pci,drive=userdata,iothread=disk-iothread,modern-pio-notify -drive if=none,index=3,id=sdcard,file=/home/leo/.android/avd/Pixel_2_API_16.avd/sdcard.img.qcow2,overlap-check=none,cache=unsafe,l2-cache-size=1048576 -device virtio-blk-pci,drive=sdcard,iothread=disk-iothread,modern-pio-notify -netdev user,id=mynet -device virtio-net-pci,netdev=mynet -device virtio-rng-pci -show-cursor -L /home/leo/Android/Sdk/emulator/lib/pc-bios -soundhw hda -vga none -append 'qemu=1 no_timer_check androidboot.hardware=ranchu androidboot.serialno=EMULATOR29X2X1X0 clocksource=pit no-kvmclock android.qemud=1 console=0 android.checkjni=1 android.bootanim=0 qemu.gles=1 qemu.settings.system.screen_off_timeout=2147483647 qemu.opengles.version=131072 cma=32M@0-4G androidboot.android_dt_dir=/sys/bus/platform/devices/ANDR0001:00/properties/android/ loop.max_part=7 ramoops.mem_address=0xff018000 ramoops.mem_size=0x10000 memmap=0x10000$0xff018000 qemu.dalvik.vm.heapsize=384m' -android-hw /home/leo/.android/avd/Pixel_2_API_16.avd/hardware-qemu.ini
+emulator: Android qemu version 29.2.1.0 (build_id 5889189) (CL:N/A)
+
+emulator: Starting QEMU main loop
+emulator: Adding boot property: 'ro.opengles.version' = '131072'
+emulator: Adding boot property: 'qemu.sf.fake_camera' = 'front'
+emulator: Adding boot property: 'dalvik.vm.heapsize' = '384m'
+emulator: Adding boot property: 'qemu.hw.mainkeys' = '0'
+emulator: Adding boot property: 'qemu.sf.lcd_density' = '420'
+emulator: goldfish_events.have-dpad: false
+emulator: goldfish_events.have-trackball: false
+emulator: goldfish_events.have-camera: true
+emulator: goldfish_events.have-keyboard: true
+emulator: goldfish_events.have-lidswitch: false
+emulator: goldfish_events.have-tabletmode: false
+emulator: goldfish_events.have-touch: false
+emulator: goldfish_events.have-multitouch: true
+emulator: WARNING: Requested adb port (12869) is outside the recommended range [5555,5586]. ADB may not function properly for the emulator. See -help-port for details.
+Not using any http proxy
+emulator: Adding boot property: 'qemu.timezone' = 'America/Caracas'
+emulator: android_hw_fingerprint_init: fingerprint qemud listen service initialized
+
+emulator: emulator_window_fb_rotate
+
+emulator: No acpi ini file provided, using default
+
+emulator: No acpi ini file provided, using default
+
+emulator: VERBOSE: winsys-qt.cpp:892: config multidisplay with config.ini 0x0 0x0 0x0
+emulator: onGuestSendCommand: [0x9142000] Adb connected, start proxing data
+[11174:11174:0210/234141.601383:ERROR:zygote_host_impl_linux.cc(89)] Running as root without --no-sandbox is not supported. See https://crbug.com/638180.
