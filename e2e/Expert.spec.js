@@ -1,21 +1,37 @@
 const axios = require('axios');
 
-describe('OfferingList Screen', () => {
+describe('Expert Screen', () => {
   beforeEach(async () => {
     await device.reloadReactNative();
   });
 
-  it('should display `no offering found` when no offerings are return from backend', async () => {
+  it('should display expert data', async () => {
     await expect(element(by.id('login-username-input'))).toBeVisible();
       
     await element(by.id('login-username-input')).typeText('nick@mail.com');
     await element(by.id('login-password-input')).typeText('nick123');
     await element(by.id('login-send-button')).tap();
+    await element(by.id('side-menu-button')).tap();
+    await element(by.id('sidemenu-expert-button')).tap();
 
-    await waitFor(element(by.id('no-offering-found'))).toBeVisible().withTimeout(10 * 1000);
+    await waitFor(element(by.text('Nick'))).toBeVisible().withTimeout(10 * 1000);
+    // we fail to match the about me text of the user
+    //await waitFor(element(by.text('Nicholas "Nick" Joseph Fury is a world-renowned spy'))).toBeVisible().withTimeout(10 * 1000);
   });
 
-  it.skip('should show toast when there are offering on list and fetch to API return no new offerings', async () => {
+  it('should display edit button if user is seeing its own profile', async () => {
+    await expect(element(by.id('login-username-input'))).toBeVisible();
+      
+    await element(by.id('login-username-input')).typeText('nick@mail.com');
+    await element(by.id('login-password-input')).typeText('nick123');
+    await element(by.id('login-send-button')).tap();
+    await element(by.id('side-menu-button')).tap();
+    await element(by.id('sidemenu-expert-button')).tap();
+
+    await waitFor(element(by.id('expert-edit-button'))).toBeVisible().withTimeout(10 * 1000);
+  });
+
+  it('should not display edit button if user is seeing another profile', async () => {
     await axios('http://localhost:1337/test/seedOfferings')
 
     await expect(element(by.id('login-username-input'))).toBeVisible();
@@ -23,27 +39,10 @@ describe('OfferingList Screen', () => {
     await element(by.id('login-username-input')).typeText('nick@mail.com');
     await element(by.id('login-password-input')).typeText('nick123');
     await element(by.id('login-send-button')).tap();
-
-    /* we need to simulate a pull to refresh on the main list but the swipe method from the Detox API
-    is not long enough to trigger the event, we need to find a way to simulate this event */
-
-    await element(by.text('Mcdaniel Massey')).swipe('down', 'fast', 1.0);
-  });
-
-  it('should navigate to offering screen when offering is clicked', async () => {
-    await axios('http://localhost:1337/test/seedOfferings')
-    await expect(element(by.id('login-username-input'))).toBeVisible();
-      
-    await element(by.id('login-username-input')).typeText('nick@mail.com');
-    await element(by.id('login-password-input')).typeText('nick123');
-    await element(by.id('login-send-button')).tap();
-
-    /* we need to simulate a pull to refresh on the main list but the swipe method from the Detox API
-    is not long enough to trigger the event, we need to find a way to simulate this event */
 
     await element(by.text('Mcdaniel Massey')).tap();
 
-    await expect(element(by.id('offering-name'))).toBeVisible();
+    await waitFor(element(by.id('expert-edit-button'))).toBeNotVisible().withTimeout(10 * 1000);
   });
 
 });

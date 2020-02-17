@@ -1,12 +1,9 @@
 import React from 'react';
-import { Content, ListItem, Text } from 'native-base';
-import { FlatList, SafeAreaView } from 'react-native';
-import { useNavigation } from 'react-navigation-hooks';
 import Wrapper from '../state/Wrapper';
 import { WrappedComponent } from '../state/WrappedComponent';
 import Factory from '../factories/Factory';
 
-const SideMenu: WrappedComponent = ({ useGlobalState }) => {
+const SideMenu: WrappedComponent = () => {
     return <Factory component={{ SideMenu: {} }}/>
 }
 

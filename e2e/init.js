@@ -14,11 +14,11 @@ jasmine.getEnv().addReporter(adapter);
 jasmine.getEnv().addReporter(specReporter);
 
 beforeAll(async () => {
-  await axios('http://localhost:1337/test/resetDB')
   await detox.init(config);
 }, 300000);
 
 beforeEach(async () => {
+  await axios('http://localhost:1337/test/resetDB')
   await adapter.beforeEach();
 });
 

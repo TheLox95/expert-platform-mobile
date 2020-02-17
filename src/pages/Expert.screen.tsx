@@ -42,7 +42,7 @@ const ExpertProfile: WrappedComponent = ({ requests: { user }, useGlobalState })
   return (
     <>
       <View style={DefaultTheme.backgroundColorPrimaryDarkColor}>
-        <H2 style={DefaultTheme.onPrimaryColorText}>{userToShow.username}</H2>
+        <H2 testID='expert-username' style={DefaultTheme.onPrimaryColorText}>{`${userToShow.username.charAt(0).toUpperCase()}${userToShow.username.slice(1)}`}</H2>
         <Markdown style={MarkdownStyles}>
           {userToShow.aboutme}
         </Markdown>
@@ -82,8 +82,8 @@ const ExpertProfile: WrappedComponent = ({ requests: { user }, useGlobalState })
       </SafeAreaView>
 
       {userToShow.id === currentUser?.id ? (
-        <View style={{ marginTop: 5 }}>
-          <Button style={DefaultTheme.backgroundColorPrimaryColor} rounded onPress={() => navigate('EditExpert', { id: currentUser.id })}>
+        <View style={{ marginBottom: 5 }}>
+          <Button testID="expert-edit-button" style={DefaultTheme.backgroundColorPrimaryColor} rounded onPress={() => navigate('EditExpert', { id: currentUser.id })}>
             <Text>Edit</Text>
           </Button>
         </View>

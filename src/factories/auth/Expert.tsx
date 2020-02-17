@@ -11,7 +11,7 @@ export const HeaderComponent: React.FunctionComponent<HeaderProps> = ({ toggleDr
     return (
         <>
             <Left>
-                <Button style={DefaultTheme.backgroundColorPrimaryColor} transparent onPress={() => toggleDrawer()}>
+                <Button testID="side-menu-button" style={DefaultTheme.backgroundColorPrimaryColor} transparent onPress={() => toggleDrawer()}>
                     <Icon name='menu' />
                 </Button>
             </Left>
@@ -51,11 +51,11 @@ export const SideMenu = Wrapper(({ useGlobalState, ...props }) => {
         <SafeAreaView style={{ flex: 1 }}>
             <FlatList
                 data={[
-                    { routeName: 'Home', name: 'Home', data: {} },
-                    { routeName: 'Expert', name: 'Profile', data: { id: user?.id } },
+                    { testID: 'sidemenu-home-button',routeName: 'Home', name: 'Home', data: {} },
+                    { testID: 'sidemenu-expert-button',routeName: 'Expert', name: 'Profile', data: { id: user?.id } },
                 ]}
                 renderItem={({ item }) => (
-                    <ListItem noBorder onPress={() => navigate(item.routeName, item.data)}>
+                    <ListItem testID={item.testID} noBorder onPress={() => navigate(item.routeName, item.data)}>
                         <Text>{item.name}</Text>
                     </ListItem>
                 )}
