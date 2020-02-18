@@ -63,7 +63,7 @@ const EditExpertScreen: WrappedComponent = ({ requests: { file: fileRequest, off
     if (!offeringToEdit) return null;
 
     return (
-        <Form>
+        <Form testID="editoffering-form">
             <Item>
                 <Controller
                     testID="editoffering-name"
