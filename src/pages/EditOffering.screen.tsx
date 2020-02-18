@@ -66,6 +66,7 @@ const EditExpertScreen: WrappedComponent = ({ requests: { file: fileRequest, off
         <Form>
             <Item>
                 <Controller
+                    testID="editoffering-name"
                     as={<Input placeholder="Name" />}
                     control={control}
                     name="name"
@@ -73,10 +74,11 @@ const EditExpertScreen: WrappedComponent = ({ requests: { file: fileRequest, off
                     rules={{ required: true }}
                     defaultValue={offeringToEdit.name}
                 />
-                {errors.name && <Text>This is required.</Text>}
+                {errors.name && <Text testID="editoffering-name-error">This is required.</Text>}
             </Item>
             <Item>
                 <Controller
+                    testID="editoffering-description"
                     as={<Input placeholder="Description" />}
                     control={control}
                     name="description"
@@ -84,7 +86,7 @@ const EditExpertScreen: WrappedComponent = ({ requests: { file: fileRequest, off
                     rules={{ required: true }}
                     defaultValue={offeringToEdit.description}
                 />
-                {errors.description && <Text>This is required.</Text>}
+                {errors.description && <Text testID="editoffering-name-description">This is required.</Text>}
             </Item>
 
 
@@ -179,7 +181,7 @@ const EditExpertScreen: WrappedComponent = ({ requests: { file: fileRequest, off
             </Item>
 
 
-            <Button rounded style={DefaultTheme.backgroundColorPrimaryColor} onPress={send}>
+            <Button testID="editoffering-button" rounded style={DefaultTheme.backgroundColorPrimaryColor} onPress={send}>
                 <Text>Edit</Text>
             </Button>
         </Form>

@@ -83,7 +83,7 @@ const OfferingPage: WrappedComponent = ({ requests, useGlobalState }) => {
       </View>
       {offeringToShow.user.id === user?.id ? (
         <View style={{ marginTop: 5 }}>
-          <Button style={DefaultTheme.backgroundColorPrimaryColor} rounded onPress={() => navigate('EditOffering', { id: offeringToShow.id })}>
+          <Button testID="offering-edit-button" style={DefaultTheme.backgroundColorPrimaryColor} rounded onPress={() => navigate('EditOffering', { id: offeringToShow.id })}>
             <Text>Edit</Text>
           </Button>
         </View>

@@ -1,5 +1,3 @@
-const axios = require('axios');
-
 describe('Edit Expert Screen', () => {
   beforeEach(async () => {
     await device.reloadReactNative();
@@ -7,7 +5,7 @@ describe('Edit Expert Screen', () => {
 
   it('should display expert data', async () => {
     await expect(element(by.id('login-username-input'))).toBeVisible();
-      
+
     await element(by.id('login-username-input')).typeText('nick@mail.com');
     await element(by.id('login-password-input')).typeText('nick123');
     await element(by.id('login-send-button')).tap();
@@ -20,7 +18,7 @@ describe('Edit Expert Screen', () => {
 
   it('should navigate to `profile screen` when editing is successful', async () => {
     await expect(element(by.id('login-username-input'))).toBeVisible();
-      
+
     await element(by.id('login-username-input')).typeText('nick@mail.com');
     await element(by.id('login-password-input')).typeText('nick123');
     await element(by.id('login-send-button')).tap();
@@ -36,9 +34,9 @@ describe('Edit Expert Screen', () => {
     await waitFor(element(by.text('Nicholas'))).toBeVisible().withTimeout(10 * 1000);
   });
 
-  it('should navigate to `profile screen` when editing is successful', async () => {
+  it('should validate form data', async () => {
     await expect(element(by.id('login-username-input'))).toBeVisible();
-      
+
     await element(by.id('login-username-input')).typeText('nick@mail.com');
     await element(by.id('login-password-input')).typeText('nick123');
     await element(by.id('login-send-button')).tap();
