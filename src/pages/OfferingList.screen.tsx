@@ -1,14 +1,13 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 
-import { ListItem, Text, Container, Grid, Col, Row, Content, H1, Icon } from "native-base";
-import { useNavigation, useNavigationState, useFocusEffect } from 'react-navigation-hooks'
+import { ListItem, Text, Grid, Col, H1, Icon } from "native-base";
+import { useNavigation, useFocusEffect } from 'react-navigation-hooks'
 import Wrapper from "../state/Wrapper";
 import { WrappedComponent } from "../state/WrappedComponent";
-import { useEffect } from 'react';
-import { useState } from 'react';
 import { Offering } from '../models';
 import { DefaultTheme } from '../theme';
-import { FlatList } from 'react-native';
+import { SafeAreaView, Dimensions } from 'react-native';
+import { RecyclerListView, DataProvider, LayoutProvider } from "recyclerlistview";
 
 const NoOfferings = Wrapper(() => {
   return (
@@ -30,7 +29,11 @@ const OfferingList: WrappedComponent = ({ requests, useGlobalState }) => {
 
   const fetchOffergins = async () => {
     const pulledOfferings = await offering.getOfferings()
-    setOfferings(pulledOfferings)
+    setOfferings((prev) => {
+      if (Array.isArray(prev)) return [...prev, ...pulledOfferings.filter(po => prev.find(o => o.id === po.id) === undefined)]
+      if (Array.isArray(pulledOfferings)) return pulledOfferings
+      return prev;
+    })
     if (Array.isArray(offerings) && pulledOfferings.length !== 0) {
       setInfo('No new offerings found!')
     }
@@ -47,31 +50,37 @@ const OfferingList: WrappedComponent = ({ requests, useGlobalState }) => {
   }
 
   return (
-    <FlatList
-      testID="offering-list"
-      refreshing={offerings === null}
-      onRefresh={() => fetchOffergins()}
-      onEndReached={() => {
-        if (!onEndReachedCalledDuringMomentum) {
-          fetchOffergins();
-          setOnEndReachedCalledDuringMomentum(true);
-        }
-      }}
-      onEndReachedThreshold={0.5}
-      onMomentumScrollBegin={() => { setOnEndReachedCalledDuringMomentum(false) }}
-      data={offerings}
-      keyExtractor={(item) => item.id.toString()}
-      renderItem={(o) => {
-        return (
-          <ListItem key={o.item.id} onPress={() => {
-            navigate('Offering', { id: o.item.id })
-          }}>
-            <Text>{o.item.name}</Text>
-          </ListItem>
-        );
-      }}>
-    </FlatList>
+    <SafeAreaView style={{ flex: 1 }}>
+      <RecyclerListView
+        layoutProvider={new LayoutProvider(
+          index => {
+              return 0
+          },
+          (type, dim) => {
+            dim.width = Dimensions.get("window").width;
+            dim.height = (Dimensions.get("window").height / 100) * 8;
+          }
+      )}
+        dataProvider={new DataProvider((r1, r2) => r1.id !== r2.id).cloneWithRows(offerings)}
+        rowRenderer={(type, o) => {
+          return (
+            <ListItem key={o.id} onPress={() => {
+              navigate('Offering', { id: o.id })
+            }}>
+              <Text>{o.name}</Text>
+            </ListItem>
+          );
+        }}
+        onEndReached={() => {
+          if (!onEndReachedCalledDuringMomentum) {
+            fetchOffergins();
+            setOnEndReachedCalledDuringMomentum(true);
+          }
+        }}
+        onScroll={() => setOnEndReachedCalledDuringMomentum(false)}>
+      </RecyclerListView>
+    </SafeAreaView>
   );
 }
 
-export default Wrapper(OfferingList, {noStyle: true});
+export default Wrapper(OfferingList, { noStyle: true });

@@ -31,7 +31,6 @@ const OfferingPage: WrappedComponent = ({ requests, useGlobalState }) => {
       // reads the new value and call it again
       // we set offeringId to null to trigger update of the function with the new value
       offeringId = null
-      navigate('Home');
     });
     return () => { subscription.remove() }
   }, [offeringId]));
